@@ -37,4 +37,9 @@ module "storefront" {
   tags             = var.tags
 }
 
+module "dns" {
+  source           = "./dns"
+  shop_domain_name = var.shop_domain_name
+}
+
 

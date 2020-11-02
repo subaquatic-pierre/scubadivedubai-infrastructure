@@ -11,5 +11,5 @@ module "cloudfront_distribution" {
 
   shop_domain_name = var.shop_domain_name
   tags             = var.tags
-  ssl_cert_arn     = var.ssl_cert_arn
+  ssl_cert_arn     = module.dns.acm.aws_acm_certificate_validation.cert.certificate_arn
 }
