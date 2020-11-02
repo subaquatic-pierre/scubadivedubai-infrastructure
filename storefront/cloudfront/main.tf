@@ -5,7 +5,7 @@ resource "aws_cloudfront_distribution" "main" {
 
   origin {
     origin_id   = "origin-${var.shop_domain_name}"
-    domain_name = aws_s3_bucket.main.website_endpoint
+    domain_name = var.s3_website_endpoint_main
 
     custom_origin_config {
       origin_protocol_policy = "http-only"
@@ -31,12 +31,18 @@ resource "aws_cloudfront_distribution" "main" {
     response_page_path    = "/404.html"
   }
 
-
   default_cache_behavior {
     target_origin_id = "origin-${var.shop_domain_name}"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
     compress         = true
+
+    forwarded_values {
+      query_string = true
+      cookies {
+        forward = "all"
+      }
+    }
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0

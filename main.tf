@@ -43,8 +43,8 @@ module "storefront" {
 module "dns" {
   source = "./dns"
 
-  shop_domain_name = var.shop_domain_name
-
+  shop_domain_name  = var.shop_domain_name
+  domain_name       = var.domain
   cf_domain_name    = module.storefront.cf_domain_name
   cf_hosted_zone_id = module.storefront.cf_hosted_zone_id
 }

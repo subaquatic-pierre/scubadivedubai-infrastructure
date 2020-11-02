@@ -7,7 +7,7 @@ output "main_bucket_arn" {
 }
 
 output "website_endpoint_main" {
-  value = "${var.shop_domain_name}.s3-website-${data.aws_region.main.name}.amazonaws.com"
+  value = aws_s3_bucket.main.website_endpoint
 }
 
 output "hosted_zone_id_main" {

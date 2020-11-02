@@ -1,6 +1,6 @@
 # Route 53 record for the static site
 data "aws_route53_zone" "main" {
-  name         = var.shop_domain_name
+  name         = var.domain_name
   private_zone = false
 }
 
