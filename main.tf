@@ -21,6 +21,7 @@ terraform {
 
 module "network" {
   source               = "./network"
+  name                 = var.name
   environment          = var.environment
   vpc_cidr             = var.vpc_cidr
   public_subnet_cidrs  = var.public_subnet_cidrs
@@ -30,16 +31,22 @@ module "network" {
 }
 
 module "storefront" {
-  source           = "./storefront"
+  source = "./storefront"
+
+  environment      = var.environment
   shop_domain_name = var.shop_domain_name
   refer_secret     = var.refer_secret
-  ssl_cert_arn     = var.ssl_cert_arn
   tags             = var.tags
+  ssl_cert_arn     = module.dns.ssl_cert_arn_main
 }
 
 module "dns" {
-  source           = "./dns"
+  source = "./dns"
+
   shop_domain_name = var.shop_domain_name
+
+  cf_domain_name    = module.storefront.cf_domain_name
+  cf_hosted_zone_id = module.storefront.cf_hosted_zone_id
 }
 
 

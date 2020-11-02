@@ -53,6 +53,6 @@ resource "aws_route" "public_igw_route" {
 # Currently Terraform does not allow module dependency to wait on.
 # Therefore we use a workaround described here: https://github.com/hashicorp/terraform/issues/1178#issuecomment-207369534
 
-resource "null_resource" "dummy_dependency" {
-  depends_on = [module.nat]
-}
+# resource "null_resource" "dummy_dependency" {
+#   depends_on = [module.nat]
+# }

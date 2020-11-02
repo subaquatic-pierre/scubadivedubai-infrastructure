@@ -14,6 +14,6 @@ output "public_subnet_ids" {
   value = module.public_subnet.ids
 }
 
-output "depends_id" {
-  value = null_resource.dummy_dependency.id
-}
+# output "depends_id" {
+#   value = null_resource.dummy_dependency.id
+# }

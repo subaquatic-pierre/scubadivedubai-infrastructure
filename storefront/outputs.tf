@@ -14,13 +14,13 @@ output "s3_hosted_zone_id" {
 }
 
 output "cf_domain_name" {
-  value = module.cloudformation.cf_domain_name
+  value = module.cloudfront_distribution.cf_domain_name
 }
 
 output "cf_hosted_zone_id" {
-  value = module.cloudformation.cf_hosted_zone_id
+  value = module.cloudfront_distribution.cf_hosted_zone_id
 }
 
 output "cf_distribution_id" {
-  value = module.cloudformation.cf_distribution_id
+  value = module.cloudfront_distribution.cf_distribution_id
 }

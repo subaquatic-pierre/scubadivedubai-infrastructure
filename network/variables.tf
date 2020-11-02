@@ -27,8 +27,9 @@ variable "availability_zones" {
 }
 
 variable "depends_id" {}
+variable "name" {}
 
-variable "public_ip" {
-  type        = bool
-  description = "Set to true to assign public IP on instance launch"
-}
+# variable "public_ip" {
+#   type        = bool
+#   description = "Set to true to assign public IP on instance launch"
+# }

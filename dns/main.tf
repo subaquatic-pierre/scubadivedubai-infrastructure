@@ -7,14 +7,14 @@ data "aws_route53_zone" "main" {
 module "route53" {
   source = "./route53"
 
-  shop_domain_name  = var.shop_domain_name
-  aws_route53_zone  = data.aws_route53_zone
-  cf_domain_name    = module.storefront.cf_domain_name
-  cf_hosted_zone_id = module.storefront.cf_hosted_zone_id
+  shop_domain_name    = var.shop_domain_name
+  aws_route53_zone_id = data.aws_route53_zone.main.id
+  cf_domain_name      = var.cf_domain_name
+  cf_hosted_zone_id   = var.cf_hosted_zone_id
 }
 
 module "acm" {
-  source           = "./acm"
-  aws_route53_zone = data.aws_route53_zone
-  shop_domain_name = var.shop_domain_name
+  source              = "./acm"
+  aws_route53_zone_id = data.aws_route53_zone.main.id
+  shop_domain_name    = var.shop_domain_name
 }

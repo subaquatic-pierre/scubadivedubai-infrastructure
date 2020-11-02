@@ -19,3 +19,8 @@ variable "availability_zones" {
 variable "vpc_id" {
   description = "VPC id to place to subnet into"
 }
+
+variable "public_ip" {
+  type        = bool
+  description = "Define wether or not the subnet will auto assign an IP on instance launch"
+}

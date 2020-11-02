@@ -1,5 +1,5 @@
-module "s3_buckets" {
-  source = "./s3buckets"
+module "s3" {
+  source = "./s3"
 
   tags             = var.tags
   shop_domain_name = var.shop_domain_name
@@ -9,7 +9,8 @@ module "s3_buckets" {
 module "cloudfront_distribution" {
   source = "./cloudfront"
 
+  refer_secret     = var.refer_secret
   shop_domain_name = var.shop_domain_name
   tags             = var.tags
-  ssl_cert_arn     = module.dns.acm.aws_acm_certificate_validation.cert.certificate_arn
+  ssl_cert_arn     = var.ssl_cert_arn
 }
