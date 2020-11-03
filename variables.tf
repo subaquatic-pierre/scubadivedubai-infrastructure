@@ -29,10 +29,10 @@ variable "shop_domain_name" {
   description = "The FQDN of the website and also name of the S3 bucket"
 }
 
-# variable "ssl_certificate_arn" {
-#   type        = string
-#   description = "ARN of the certificate covering the fqdn and its apex?"
-# }
+variable "ssl_cert_arn" {
+  type        = string
+  description = "ARN of the certificate covering the fqdn and its apex?"
+}
 
 # ------
 # VPC Variables

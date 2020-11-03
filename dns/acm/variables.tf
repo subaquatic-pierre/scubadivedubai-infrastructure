@@ -1,2 +1,3 @@
 variable "aws_route53_zone_id" {}
-variable "shop_domain_name" {}
+variable "domain_name" {}
+variable "name" {}

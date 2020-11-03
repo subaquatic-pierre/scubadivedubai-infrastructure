@@ -37,14 +37,15 @@ module "storefront" {
   shop_domain_name = var.shop_domain_name
   refer_secret     = var.refer_secret
   tags             = var.tags
-  ssl_cert_arn     = module.dns.ssl_cert_arn_main
+  ssl_cert_arn     = var.ssl_cert_arn
 }
 
 module "dns" {
   source = "./dns"
 
-  shop_domain_name  = var.shop_domain_name
   domain_name       = var.domain
+  name              = var.name
+  shop_domain_name  = var.shop_domain_name
   cf_domain_name    = module.storefront.cf_domain_name
   cf_hosted_zone_id = module.storefront.cf_hosted_zone_id
 }

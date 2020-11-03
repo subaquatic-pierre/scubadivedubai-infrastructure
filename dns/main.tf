@@ -13,8 +13,9 @@ module "route53" {
   cf_hosted_zone_id   = var.cf_hosted_zone_id
 }
 
-module "acm" {
-  source              = "./acm"
-  aws_route53_zone_id = data.aws_route53_zone.main.id
-  shop_domain_name    = var.shop_domain_name
-}
+# module "acm" {
+#   source              = "./acm"
+#   aws_route53_zone_id = data.aws_route53_zone.main.id
+#   domain_name         = var.domain_name
+#   name                = var.name
+# }
