@@ -5,12 +5,20 @@ data "aws_route53_zone" "main" {
 }
 
 module "route53" {
-  source = "./route53"
-
-  shop_domain_name    = var.shop_domain_name
+  source              = "./route53"
   aws_route53_zone_id = data.aws_route53_zone.main.id
-  cf_domain_name      = var.cf_domain_name
-  cf_hosted_zone_id   = var.cf_hosted_zone_id
+
+  # Root domain
+  domain_name            = var.domain_name
+  cf_domain_name_main    = var.cf_domain_name_main
+  cf_hosted_zone_id_main = var.cf_hosted_zone_id_main
+
+  # Shop domain
+  shop_domain_name = var.shop_domain_name
+
+  # Www domain
+  www_domain_name = var.www_domain_name
+
 }
 
 # module "acm" {

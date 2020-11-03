@@ -4,7 +4,7 @@ resource "aws_cloudfront_distribution" "main" {
   http_version = "http2"
 
   origin {
-    origin_id   = "origin-${var.shop_domain_name}"
+    origin_id   = "origin-${var.domain_name}"
     domain_name = var.s3_website_endpoint_main
 
     custom_origin_config {
@@ -32,7 +32,7 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   default_cache_behavior {
-    target_origin_id = "origin-${var.shop_domain_name}"
+    target_origin_id = "origin-${var.domain_name}"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
     compress         = true
@@ -62,3 +62,5 @@ resource "aws_cloudfront_distribution" "main" {
     minimum_protocol_version = "TLSv1"
   }
 }
+
+

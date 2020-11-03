@@ -1,15 +1,15 @@
 module "vpc" {
   source = "./vpc"
 
-  cidr        = var.vpc_cidr
-  environment = var.environment
+  cidr = var.vpc_cidr
+  tags = var.tags
 }
 
 module "private_subnet" {
   source = "./subnet"
 
-  name               = "${var.name}_private_subnet"
-  environment        = var.environment
+  name               = "${lookup(var.tags, "Name", "Scubadivedubai")}_public_subnet"
+  tags               = var.tags
   vpc_id             = module.vpc.id
   cidrs              = var.private_subnet_cidrs
   availability_zones = var.availability_zones
@@ -19,8 +19,8 @@ module "private_subnet" {
 module "public_subnet" {
   source = "./subnet"
 
-  name               = "${var.name}_public_subnet"
-  environment        = var.environment
+  name               = "${lookup(var.tags, "Name", "Scubadivedubai")}_public_subnet"
+  tags               = var.tags
   vpc_id             = module.vpc.id
   cidrs              = var.public_subnet_cidrs
   availability_zones = var.availability_zones

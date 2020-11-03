@@ -9,20 +9,17 @@ resource "aws_subnet" "subnet" {
 
   tags = {
     Name        = "${var.name}_${element(var.availability_zones, count.index)}"
-    Environment = var.environment
+    Environment = lookup(var.tags, "Environment", "Production")
   }
 }
 
-# We are creating one more subnets that we want to address as one, therefore we create a routing table and 
-# add all the subnets to it. This allows us to easier create routing to all the subnets at once.
-# For example when creating a route to the Internet Gateway 
 resource "aws_route_table" "subnet" {
   vpc_id = var.vpc_id
   count  = length(var.cidrs)
 
   tags = {
     Name        = "${var.name}_${element(var.availability_zones, count.index)}"
-    Environment = var.environment
+    Environment = lookup(var.tags, "Environment", "Production")
   }
 }
 

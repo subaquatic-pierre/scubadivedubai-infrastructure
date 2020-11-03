@@ -21,33 +21,43 @@ terraform {
 
 module "network" {
   source               = "./network"
-  name                 = var.name
-  environment          = var.environment
+  tags                 = var.tags
   vpc_cidr             = var.vpc_cidr
   public_subnet_cidrs  = var.public_subnet_cidrs
   private_subnet_cidrs = var.private_subnet_cidrs
   availability_zones   = var.availability_zones
-  depends_id           = ""
 }
 
 module "storefront" {
   source = "./storefront"
 
-  environment      = var.environment
+  refer_secret = var.refer_secret
+  tags         = var.tags
+  ssl_cert_arn = var.ssl_cert_arn
+
+  # Root domain
+  domain_name = var.domain_name
+
+  # Shop domain
   shop_domain_name = var.shop_domain_name
-  refer_secret     = var.refer_secret
-  tags             = var.tags
-  ssl_cert_arn     = var.ssl_cert_arn
+
+  # Www domain
+  www_domain_name = var.www_domain_name
 }
 
 module "dns" {
   source = "./dns"
 
-  domain_name       = var.domain
-  name              = var.name
-  shop_domain_name  = var.shop_domain_name
-  cf_domain_name    = module.storefront.cf_domain_name
-  cf_hosted_zone_id = module.storefront.cf_hosted_zone_id
+  # Root domain
+  domain_name            = var.domain_name
+  cf_domain_name_main    = module.storefront.cf_domain_name_main
+  cf_hosted_zone_id_main = module.storefront.cf_hosted_zone_id_main
+
+  # Shop domain
+  shop_domain_name = var.shop_domain_name
+
+  # Www domain
+  www_domain_name = var.www_domain_name
 }
 
 

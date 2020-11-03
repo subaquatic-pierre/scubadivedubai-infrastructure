@@ -1,26 +1,32 @@
+# Root domain
 output "s3_bucket_id_main" {
-  value = module.s3.main_bucket_id
+  value = module.s3.bucket_id_main
 }
 output "s3_bucket_arn_main" {
-  value = module.s3.main_bucket_arn
+  value = module.s3.bucket_arn_main
 }
-
-output "s3_website_endpoint" {
+output "s3_website_endpoint_main" {
   value = module.s3.website_endpoint_main
 }
-
-output "s3_hosted_zone_id" {
+output "s3_hosted_zone_id_main" {
   value = module.s3.hosted_zone_id_main
 }
-
-output "cf_domain_name" {
-  value = module.cloudfront_distribution.cf_domain_name
+output "cf_domain_name_main" {
+  value = module.cloudfront_distribution.domain_name_main
+}
+output "cf_hosted_zone_id_main" {
+  value = module.cloudfront_distribution.hosted_zone_id_main
+}
+output "cf_distribution_id_main" {
+  value = module.cloudfront_distribution.distribution_id_main
 }
 
-output "cf_hosted_zone_id" {
-  value = module.cloudfront_distribution.cf_hosted_zone_id
-}
+# Shop domain
 
-output "cf_distribution_id" {
-  value = module.cloudfront_distribution.cf_distribution_id
-}
+
+
+
+
+
+
+# Www domain

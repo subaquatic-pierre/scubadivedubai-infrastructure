@@ -2,10 +2,6 @@ variable "vpc_cidr" {
   description = "VPC cidr block. Example: 10.0.0.0/16"
 }
 
-variable "environment" {
-  description = "The name of the environment"
-}
-
 variable "destination_cidr_block" {
   default     = "0.0.0.0/0"
   description = "Specify all traffic to be routed either trough Internet Gateway or NAT to access the internet"
@@ -26,10 +22,4 @@ variable "availability_zones" {
   description = "List of avalibility zones you want. Example: eu-west-1a and eu-west-1b"
 }
 
-variable "depends_id" {}
-variable "name" {}
-
-# variable "public_ip" {
-#   type        = bool
-#   description = "Set to true to assign public IP on instance launch"
-# }
+variable "tags" {}

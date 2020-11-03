@@ -2,10 +2,6 @@ variable "name" {
   description = "Name of the subnet, actual name will be, for example: name_eu-west-1a"
 }
 
-variable "environment" {
-  description = "The name of the environment"
-}
-
 variable "cidrs" {
   type        = list
   description = "List of cidrs, for every avalibility zone you want you need one. Example: 10.0.0.0/24 and 10.0.1.0/24"
@@ -24,3 +20,5 @@ variable "public_ip" {
   type        = bool
   description = "Define wether or not the subnet will auto assign an IP on instance launch"
 }
+
+variable "tags" {}

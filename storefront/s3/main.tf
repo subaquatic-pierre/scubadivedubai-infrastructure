@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "main" {
-  bucket = var.shop_domain_name
+  bucket = var.domain_name
   acl    = "private"
   policy = data.aws_iam_policy_document.bucket_policy.json
 
@@ -10,13 +10,7 @@ resource "aws_s3_bucket" "main" {
 
   force_destroy = true
 
-  tags = merge(
-    var.tags,
-    {
-      "Environment" = var.environment
-      "Name"        = var.shop_domain_name
-    },
-  )
+  tags = var.tags
 }
 
 data "aws_iam_policy_document" "bucket_policy" {
@@ -28,7 +22,7 @@ data "aws_iam_policy_document" "bucket_policy" {
     ]
 
     resources = [
-      "arn:aws:s3:::${var.shop_domain_name}/*",
+      "arn:aws:s3:::${var.domain_name}/*",
     ]
 
     condition {
@@ -52,7 +46,7 @@ data "aws_iam_policy_document" "bucket_policy" {
     ]
 
     resources = [
-      "arn:aws:s3:::${var.shop_domain_name}/*",
+      "arn:aws:s3:::${var.domain_name}/*",
     ]
 
     condition {

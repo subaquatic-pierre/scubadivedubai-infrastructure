@@ -1,11 +1,17 @@
-output "cf_domain_name" {
+# Root domain
+output "domain_name_main" {
   value = aws_cloudfront_distribution.main.domain_name
 }
-
-output "cf_hosted_zone_id" {
+output "hosted_zone_id_main" {
   value = aws_cloudfront_distribution.main.hosted_zone_id
 }
-
-output "cf_distribution_id" {
+output "distribution_id_main" {
   value = aws_cloudfront_distribution.main.id
 }
+
+# Shop domain
+
+
+
+
+# Www domain

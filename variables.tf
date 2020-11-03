@@ -1,19 +1,32 @@
 # ------
 # General Variables
 # ------
-
-variable "domain" {
-  type        = string
-  description = "Root Route53 domain name"
-}
-variable "name" {}
-variable "environment" {}
 variable "tags" {
   type        = map(string)
   description = "Tags"
-  default = {
-    "Project" : "scubdivedubai"
-  }
+}
+
+# ------
+# Domain Variables
+# ------
+variable "domain_name" {
+  type        = string
+  description = "Root Route53 domain name"
+}
+
+variable "shop_domain_name" {
+  type        = string
+  description = "The FQDN of the website and also name of the S3 bucket"
+}
+
+variable "www_domain_name" {
+  type        = string
+  description = "The FQDN of the website and also name of the S3 bucket"
+}
+
+variable "ssl_cert_arn" {
+  type        = string
+  description = "ARN of the certificate covering the fqdn and its apex?"
 }
 
 # ------
@@ -22,16 +35,6 @@ variable "tags" {
 variable "refer_secret" {
   type        = string
   description = "A secret string to authenticate CF requests to S3"
-}
-
-variable "shop_domain_name" {
-  type        = string
-  description = "The FQDN of the website and also name of the S3 bucket"
-}
-
-variable "ssl_cert_arn" {
-  type        = string
-  description = "ARN of the certificate covering the fqdn and its apex?"
 }
 
 # ------
