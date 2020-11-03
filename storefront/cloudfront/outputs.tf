@@ -9,9 +9,15 @@ output "distribution_id_main" {
   value = aws_cloudfront_distribution.main.id
 }
 
-# Shop domain
-
-
-
-
 # Www domain
+output "domain_name_www" {
+  value = aws_cloudfront_distribution.www.domain_name
+}
+output "hosted_zone_id_www" {
+  value = aws_cloudfront_distribution.www.hosted_zone_id
+}
+output "distribution_id_www" {
+  value = aws_cloudfront_distribution.www.id
+}
+
+# Shop domain

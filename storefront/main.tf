@@ -2,9 +2,16 @@ module "s3" {
   source = "./s3"
 
   tags         = var.tags
-  domain_name  = var.domain_name
   refer_secret = var.refer_secret
-  # shop_domain_name = var.shop_domain_name
+
+  # Root domain
+  domain_name = var.domain_name
+
+  # Www domain
+  www_domain_name = var.www_domain_name
+
+  # Shop Domain
+  shop_domain_name = var.shop_domain_name
 }
 
 module "cloudfront_distribution" {
@@ -18,9 +25,10 @@ module "cloudfront_distribution" {
   domain_name              = var.domain_name
   s3_website_endpoint_main = module.s3.website_endpoint_main
 
+  # Www domain
+  www_domain_name         = var.www_domain_name
+  s3_website_endpoint_www = module.s3.website_endpoint_www
+
   # Shop domain
   shop_domain_name = var.shop_domain_name
-
-  # Www domain
-  www_domain_name = var.www_domain_name
 }

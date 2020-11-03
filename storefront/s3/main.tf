@@ -13,6 +13,20 @@ resource "aws_s3_bucket" "main" {
   tags = var.tags
 }
 
+resource "aws_s3_bucket" "www" {
+  bucket = var.www_domain_name
+  acl    = "private"
+  policy = data.aws_iam_policy_document.bucket_policy.json
+
+  website {
+    redirect_all_requests_to = var.domain_name
+  }
+
+  force_destroy = true
+
+  tags = var.tags
+}
+
 data "aws_iam_policy_document" "bucket_policy" {
   statement {
     sid = "AllowedIPReadAccess"
@@ -23,6 +37,7 @@ data "aws_iam_policy_document" "bucket_policy" {
 
     resources = [
       "arn:aws:s3:::${var.domain_name}/*",
+      "arn:aws:s3:::${var.www_domain_name}/*",
     ]
 
     condition {
@@ -47,6 +62,7 @@ data "aws_iam_policy_document" "bucket_policy" {
 
     resources = [
       "arn:aws:s3:::${var.domain_name}/*",
+      "arn:aws:s3:::${var.www_domain_name}/*",
     ]
 
     condition {

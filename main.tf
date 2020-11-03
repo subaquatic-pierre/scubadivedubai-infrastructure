@@ -45,8 +45,8 @@ module "storefront" {
   www_domain_name = var.www_domain_name
 }
 
-module "dns" {
-  source = "./dns"
+module "route53" {
+  source = "./route53"
 
   # Root domain
   domain_name            = var.domain_name
