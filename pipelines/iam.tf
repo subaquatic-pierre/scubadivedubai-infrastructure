@@ -46,7 +46,83 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
         "codedeploy:*"
       ],
       "Resource": "*"
-    }
+    },
+    {
+        "Action": [
+          "ecs:*",
+          "events:DescribeRule",
+          "events:DeleteRule",
+          "events:ListRuleNamesByTarget",
+          "events:ListTargetsByRule",
+          "events:PutRule",
+          "events:PutTargets",
+          "events:RemoveTargets",
+          "iam:ListAttachedRolePolicies",
+          "iam:ListInstanceProfiles",
+          "iam:ListRoles",
+          "logs:CreateLogGroup",
+          "logs:DescribeLogGroups",
+          "logs:FilterLogEvents"
+        ],
+        "Resource": "*",
+        "Effect": "Allow"
+      },
+      {
+        "Action": "iam:PassRole",
+        "Effect": "Allow",
+        "Resource": [
+          "*"
+        ],
+        "Condition": {
+          "StringLike": {
+            "iam:PassedToService": "ecs-tasks.amazonaws.com"
+          }
+        }
+      },
+      {
+        "Action": "iam:PassRole",
+        "Effect": "Allow",
+        "Resource": [
+          "arn:aws:iam::*:role/ecsInstanceRole*"
+        ],
+        "Condition": {
+          "StringLike": {
+            "iam:PassedToService": [
+              "ec2.amazonaws.com",
+              "ec2.amazonaws.com.cn"
+            ]
+          }
+        }
+      },
+      {
+        "Action": "iam:PassRole",
+        "Effect": "Allow",
+        "Resource": [
+          "arn:aws:iam::*:role/ecsAutoscaleRole*"
+        ],
+        "Condition": {
+          "StringLike": {
+            "iam:PassedToService": [
+              "application-autoscaling.amazonaws.com",
+              "application-autoscaling.amazonaws.com.cn"
+            ]
+          }
+        }
+      },
+      {
+        "Effect": "Allow",
+        "Action": "iam:CreateServiceLinkedRole",
+        "Resource": "*",
+        "Condition": {
+          "StringLike": {
+            "iam:AWSServiceName": [
+              "ecs.amazonaws.com",
+              "spot.amazonaws.com",
+              "spotfleet.amazonaws.com"
+            ]
+          }
+        }
+      }
   ]
 }
 EOF
@@ -77,6 +153,20 @@ resource "aws_iam_role_policy" "codebuild_policy" {
 {
   "Version": "2012-10-17",
   "Statement": [
+    {
+      "Effect": "Allow",
+      "Resource": ["*"],
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ecr:InitiateLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:CompleteLayerUpload",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:PutImage",
+        "ecs:RunTask",
+        "iam:PassRole"
+      ]
+    },
     {
       "Effect": "Allow",
       "Resource": ["*"],

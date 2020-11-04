@@ -1,35 +1,28 @@
 version: 0.2
 
-env:
-  variables:
-    NODE_ENV: "${env}"
-
 phases:
-  install:
-    runtime-versions:
-      nodejs: 12
-    # commands:
-    #   # - npm install -g jest
-    #   # - npm install -g gatsby
   pre_build:
     commands:
-      - echo Deploy website
-      # - npm install
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account_id}.dkr.ecr.${region}.amazonaws.com
+      - REPOSITORY_URI=${repository_url}
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
   build:
     commands:
-      - rm -rf .git
-      - aws s3 sync --delete . s3://${bucket_name} --cache-control max-age=3600
-      # - gatsby build
-      # - npm run test
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:latest . 
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
-      - echo 'Invalidating distribution cache'
-      - aws cloudfront create-invalidation --distribution-id ${distribution_id} --paths "/*"
-      - aws s3 cp --recursive . s3://${bucket_name}/
-
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"${container_name}","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
-  type: zip
   files:
-    - ./index.html
-
-
+    - imagedefinitions.json
+  discard-paths: yes

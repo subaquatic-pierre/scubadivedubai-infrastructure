@@ -71,5 +71,6 @@ module "pipelines" {
   github_token               = var.github_token
   github_account             = var.github_account
   storefront_github_repo     = var.storefront_git_repo
+  # subnet_ids                 = module.network.subnet_ids
 }
 
