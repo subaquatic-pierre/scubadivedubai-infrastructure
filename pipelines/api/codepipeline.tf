@@ -1,6 +1,6 @@
 resource "aws_codepipeline" "prod_pipeline" {
   name     = "${var.tags["name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-pipeline"
-  role_arn = var.codepipeline_role
+  role_arn = var.codebuild_role
 
   artifact_store {
     location = aws_s3_bucket.codebuild_bucket.bucket
@@ -38,7 +38,7 @@ resource "aws_codepipeline" "prod_pipeline" {
       provider         = "CodeBuild"
       version          = "1"
       input_artifacts  = ["source_output"]
-      output_artifacts = ["build_output"]
+      output_artifacts = ["imagedefinitions"]
 
       configuration = {
         ProjectName = "${var.tags["name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-codebuild"
@@ -46,15 +46,22 @@ resource "aws_codepipeline" "prod_pipeline" {
     }
   }
 
-  tags = var.tags
+  stage {
+    name = "Production"
+
+    action {
+      name            = "Deploy"
+      category        = "Deploy"
+      owner           = "AWS"
+      provider        = "ECS"
+      input_artifacts = ["imagedefinitions"]
+      version         = "1"
+
+      configuration = {
+        ClusterName = "${var.tags["name"]}-cluster"
+        ServiceName = var.tags["layer"]
+        FileName    = "imagedefinitions.json"
+      }
+    }
+  }
 }
-
-resource "aws_s3_bucket" "codebuild_bucket" {
-  bucket = "${var.tags["name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-pipeline"
-
-  acl           = "private"
-  force_destroy = true
-
-  tags = var.tags
-}
-

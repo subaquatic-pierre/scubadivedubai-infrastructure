@@ -6,4 +6,5 @@ variable "github_token" {}
 variable "github_account" {}
 
 variable "storefront_github_repo" {}
+variable "api_github_repo" {}
 variable "subnet_ids" {}

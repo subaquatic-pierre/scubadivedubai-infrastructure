@@ -23,7 +23,8 @@ resource "aws_codebuild_project" "api_build" {
   source {
     type = "CODEPIPELINE"
     buildspec = templatefile("${path.module}/buildspec.yml", {
-      repository_url     = "${aws_account_id}.dkr.ecr.us-east-2.amazonaws.com/${var.tags["name"]}-${var.tags["layer"]}"
+      account_id         = var.aws_account_id
+      repository_url     = "${var.aws_account_id}.dkr.ecr.us-east-2.amazonaws.com/${var.tags["name"]}-${var.tags["layer"]}"
       region             = var.region
       cluster_name       = "${var.tags["name"]}-${var.tags["layer"]}-cluster"
       container_name     = "${var.tags["name"]}-${var.tags["layer"]}"

@@ -13,12 +13,12 @@ variable "github_account" {}
 # Repositories
 # ------
 
-variable "storefront_git_repo" {
+variable "storefront_github_repo" {
   type        = map(string)
   description = "Storefront repository"
 }
 
-variable "api_git_repo" {
+variable "api_github_repo" {
   type        = map(string)
   description = "API repository"
 }

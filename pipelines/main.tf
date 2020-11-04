@@ -23,7 +23,7 @@ module "api_pipeline" {
   tags           = merge({ "layer" : "api" }, var.tags)
   github_account = var.github_account
   github_token   = var.github_token
-  github_repo    = var.storefront_github_repo
+  github_repo    = var.api_github_repo
   subnet_ids     = var.subnet_ids
 
   codebuild_role    = aws_iam_role.codebuild_role.arn

@@ -19,14 +19,14 @@ terraform {
   }
 }
 
-# module "network" {
-#   source               = "./network"
-#   tags                 = var.tags
-#   vpc_cidr             = var.vpc_cidr
-#   public_subnet_cidrs  = var.public_subnet_cidrs
-#   private_subnet_cidrs = var.private_subnet_cidrs
-#   availability_zones   = var.availability_zones
-# }
+module "network" {
+  source               = "./network"
+  tags                 = var.tags
+  vpc_cidr             = var.vpc_cidr
+  public_subnet_cidrs  = var.public_subnet_cidrs
+  private_subnet_cidrs = var.private_subnet_cidrs
+  availability_zones   = var.availability_zones
+}
 
 module "storefront" {
   source = "./storefront"
@@ -70,7 +70,8 @@ module "pipelines" {
   storefront_cf_distribution = module.storefront.cf_distribution_id_main
   github_token               = var.github_token
   github_account             = var.github_account
-  storefront_github_repo     = var.storefront_git_repo
-  # subnet_ids                 = module.network.subnet_ids
+  storefront_github_repo     = var.storefront_github_repo
+  api_github_repo            = var.api_github_repo
+  subnet_ids                 = module.network.public_subnet_ids
 }
 
