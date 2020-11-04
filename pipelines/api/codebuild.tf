@@ -32,7 +32,3 @@ resource "aws_codebuild_project" "api_build" {
     })
   }
 }
-
-
-
-# 032796414879.dkr.ecr.us-east-2.amazonaws.com/scubadivedubai-api

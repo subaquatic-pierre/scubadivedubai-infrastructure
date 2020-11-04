@@ -1,6 +1,6 @@
 resource "aws_codepipeline" "prod_pipeline" {
   name     = "${var.tags["name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-pipeline"
-  role_arn = var.codebuild_role
+  role_arn = var.codepipeline_role
 
   artifact_store {
     location = aws_s3_bucket.codebuild_bucket.bucket
