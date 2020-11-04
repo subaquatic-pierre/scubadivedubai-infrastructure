@@ -8,7 +8,7 @@ module "vpc" {
 module "private_subnet" {
   source = "./subnet"
 
-  name               = "${lookup(var.tags, "Name", "Scubadivedubai")}_public_subnet"
+  name               = "${lookup(var.tags, "name", "scubadivedubai-storefront")}_public_subnet"
   tags               = var.tags
   vpc_id             = module.vpc.id
   cidrs              = var.private_subnet_cidrs
@@ -19,7 +19,7 @@ module "private_subnet" {
 module "public_subnet" {
   source = "./subnet"
 
-  name               = "${lookup(var.tags, "Name", "Scubadivedubai")}_public_subnet"
+  name               = "${lookup(var.tags, "name", "scubadivedubai-storefront")}_public_subnet"
   tags               = var.tags
   vpc_id             = module.vpc.id
   cidrs              = var.public_subnet_cidrs

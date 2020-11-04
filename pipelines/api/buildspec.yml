@@ -1,0 +1,35 @@
+version: 0.2
+
+env:
+  variables:
+    NODE_ENV: "${env}"
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    # commands:
+    #   # - npm install -g jest
+    #   # - npm install -g gatsby
+  pre_build:
+    commands:
+      - echo Deploy website
+      # - npm install
+  build:
+    commands:
+      - rm -rf .git
+      - aws s3 sync --delete . s3://${bucket_name} --cache-control max-age=3600
+      # - gatsby build
+      # - npm run test
+  post_build:
+    commands:
+      - echo 'Invalidating distribution cache'
+      - aws cloudfront create-invalidation --distribution-id ${distribution_id} --paths "/*"
+      - aws s3 cp --recursive . s3://${bucket_name}/
+
+artifacts:
+  type: zip
+  files:
+    - ./index.html
+
+

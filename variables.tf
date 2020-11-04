@@ -5,6 +5,23 @@ variable "tags" {
   type        = map(string)
   description = "Tags"
 }
+variable "aws_account_id" {}
+variable "github_token" {}
+variable "github_account" {}
+
+# ------
+# Repositories
+# ------
+
+variable "storefront_git_repo" {
+  type        = map(string)
+  description = "Storefront repository"
+}
+
+variable "api_git_repo" {
+  type        = map(string)
+  description = "API repository"
+}
 
 # ------
 # Domain Variables
@@ -32,10 +49,6 @@ variable "ssl_cert_arn" {
 # ------
 # Storefront Variables
 # ------
-variable "refer_secret" {
-  type        = string
-  description = "A secret string to authenticate CF requests to S3"
-}
 
 # ------
 # VPC Variables

@@ -8,8 +8,8 @@ resource "aws_subnet" "subnet" {
   map_public_ip_on_launch = var.public_ip ? true : false
 
   tags = {
-    Name        = "${var.name}_${element(var.availability_zones, count.index)}"
-    Environment = lookup(var.tags, "Environment", "Production")
+    name        = "${var.name}_${element(var.availability_zones, count.index)}"
+    environment = lookup(var.tags, "environment", "production")
   }
 }
 
@@ -18,8 +18,8 @@ resource "aws_route_table" "subnet" {
   count  = length(var.cidrs)
 
   tags = {
-    Name        = "${var.name}_${element(var.availability_zones, count.index)}"
-    Environment = lookup(var.tags, "Environment", "Production")
+    name        = "${var.name}_${element(var.availability_zones, count.index)}"
+    environment = lookup(var.tags, "environment", "production")
   }
 }
 

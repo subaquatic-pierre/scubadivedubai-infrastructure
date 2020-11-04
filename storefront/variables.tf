@@ -1,5 +1,4 @@
 variable "tags" {}
-variable "refer_secret" {}
 variable "ssl_cert_arn" {}
 
 # Domain names
