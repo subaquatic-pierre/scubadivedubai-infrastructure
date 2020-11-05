@@ -9,4 +9,5 @@ variable "region" {}
 
 variable "codebuild_role" {}
 variable "codepipeline_role" {}
+variable "api_ecr_repo_url" {}
 

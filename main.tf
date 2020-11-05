@@ -33,13 +33,10 @@ module "storefront" {
 
   tags         = var.tags
   ssl_cert_arn = var.ssl_cert_arn
-
   # Root domain
   domain_name = var.domain_name
-
   # Shop domain
   shop_domain_name = var.shop_domain_name
-
   # Www domain
   www_domain_name = var.www_domain_name
 }
@@ -51,12 +48,10 @@ module "route53" {
   domain_name            = var.domain_name
   cf_domain_name_main    = module.storefront.cf_domain_name_main
   cf_hosted_zone_id_main = module.storefront.cf_hosted_zone_id_main
-
   # Www domain
   www_domain_name       = var.www_domain_name
   cf_domain_name_www    = module.storefront.cf_domain_name_www
   cf_hosted_zone_id_www = module.storefront.cf_hosted_zone_id_www
-
   # Shop domain
   shop_domain_name = var.shop_domain_name
 }
@@ -73,5 +68,36 @@ module "pipelines" {
   storefront_github_repo     = var.storefront_github_repo
   api_github_repo            = var.api_github_repo
   subnet_ids                 = module.network.public_subnet_ids
+  api_ecr_repo_url           = var.api_ecr_repo_url
+}
+
+module "ecs" {
+  source = "./ecs"
+
+  domain_name        = var.domain_name
+  github_repo_name   = var.api_github_repo["name"]
+  availability_zones = var.availability_zones
+  tags               = var.tags
+  ssl_cert_arn       = var.ssl_cert_arn
+  vpc_id             = module.network.vpc_id
+  subnet_ids         = module.network.public_subnet_ids
+  alb_port           = "80"
+  api_ecr_repo_url   = var.api_ecr_repo_url
+
+  container_name = "${var.tags["name"]}-api"
+  container_port = "3000"
+  host_port      = "80"
+
+  desired_task_cpu    = "1024"
+  desired_task_memory = "2048"
+
+  desired_tasks     = 1
+  min_tasks         = 2
+  max_tasks         = 3
+  cpu_to_scale_down = 20
+  cpu_to_scale_up   = 80
+
+  environment_variables = var.api_env_vars
+
 }
 
