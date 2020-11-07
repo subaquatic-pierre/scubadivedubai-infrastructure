@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "main" {
   bucket = var.domain_name
-  acl    = "private"
+  acl    = "public-read"
 
   website {
     index_document = "index.html"
@@ -14,7 +14,7 @@ resource "aws_s3_bucket" "main" {
 
 resource "aws_s3_bucket" "www" {
   bucket = var.www_domain_name
-  acl    = "private"
+  acl    = "public-read"
 
   website {
     redirect_all_requests_to = var.domain_name

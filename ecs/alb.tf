@@ -19,7 +19,7 @@ resource "aws_alb_target_group" "api_target_group" {
 
   health_check {
     path = "/"
-    port = var.host_port
+    port = var.container_port
   }
 
   depends_on = [aws_alb.app_alb]

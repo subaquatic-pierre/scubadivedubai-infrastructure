@@ -32,7 +32,7 @@ resource "aws_ecs_service" "web_api" {
 }
 
 resource "aws_ecs_cluster" "cluster" {
-  name = var.tags["name"]
+  name = "${var.tags["name"]}-cluster"
 }
 
 resource "aws_cloudwatch_log_group" "web_app" {

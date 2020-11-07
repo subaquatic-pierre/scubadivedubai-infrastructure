@@ -1,6 +1,7 @@
 resource "aws_codepipeline" "prod_pipeline" {
   name     = "${var.tags["name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-pipeline"
   role_arn = var.codepipeline_role
+  tags     = var.tags
 
   artifact_store {
     location = aws_s3_bucket.codebuild_bucket.bucket
@@ -59,7 +60,7 @@ resource "aws_codepipeline" "prod_pipeline" {
 
       configuration = {
         ClusterName = "${var.tags["name"]}-cluster"
-        ServiceName = var.tags["layer"]
+        ServiceName = var.tags["name"]
         FileName    = "imagedefinitions.json"
       }
     }
