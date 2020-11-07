@@ -34,10 +34,6 @@ variable "container_port" {
   description = "Container port"
 }
 
-variable "host_port" {
-  description = "ALB target port"
-}
-
 variable "desired_tasks" {
   description = "Number of containers desired to run the application task"
 }

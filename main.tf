@@ -81,12 +81,11 @@ module "ecs" {
   ssl_cert_arn       = var.ssl_cert_arn
   vpc_id             = module.network.vpc_id
   subnet_ids         = module.network.public_subnet_ids
-  alb_port           = "80"
   api_ecr_repo_url   = var.api_ecr_repo_url
 
   container_name = "${var.tags["name"]}-api"
+  alb_port       = "3000"
   container_port = "3000"
-  host_port      = "80"
 
   desired_task_cpu    = "1024"
   desired_task_memory = "2048"

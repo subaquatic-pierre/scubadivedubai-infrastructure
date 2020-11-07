@@ -9,7 +9,7 @@ resource "aws_alb" "app_alb" {
 resource "aws_alb_target_group" "api_target_group" {
   name_prefix = substr(var.tags["name"], 0, 5)
   port        = var.container_port
-  protocol    = "HTTP"
+  protocol    = "HTTPS"
   vpc_id      = var.vpc_id
   target_type = "ip"
 
