@@ -83,9 +83,9 @@ module "ecs" {
   subnet_ids         = module.network.public_subnet_ids
   api_ecr_repo_url   = var.api_ecr_repo_url
 
-  container_name = "${var.tags["name"]}-api"
-  alb_port       = "3000"
-  container_port = "3000"
+  container_name = "app"
+  alb_port       = "443"
+  container_port = "443"
 
   desired_task_cpu    = "1024"
   desired_task_memory = "2048"

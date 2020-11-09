@@ -11,16 +11,16 @@ resource "aws_alb_target_group" "api_target_group" {
   port        = var.container_port
   protocol    = "HTTPS"
   vpc_id      = var.vpc_id
-  target_type = "ip"
+  # target_type = "ip"
 
   lifecycle {
     create_before_destroy = true
   }
 
-  health_check {
-    path = "/"
-    port = var.container_port
-  }
+  # health_check {
+  #   path = "/"
+  #   port = var.container_port
+  # }
 
   depends_on = [aws_alb.app_alb]
 }
