@@ -17,17 +17,11 @@
         "awslogs-region": "${region}",
         "awslogs-stream-prefix": "nginx"
       }
-    },
-    "environment": []
+    }
   },
   {
     "name": "${container_name}",
     "image": "${image}",
-    "portMappings": [
-      {
-        "containerPort": 3000
-      }
-    ],
     "cpu": 256,
     "memory": 512,
     "essential": true,
@@ -38,7 +32,6 @@
         "awslogs-region": "${region}",
         "awslogs-stream-prefix": "${container_name}"
       }
-    },
-    "environment": []
+    }
   }
 ]

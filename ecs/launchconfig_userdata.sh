@@ -26,7 +26,7 @@ ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true
 ECS_LOGFILE=/log/ecs-agent.log
 ECS_AVAILABLE_LOGGING_DRIVERS=["json-file","awslogs"]
 ECS_LOGLEVEL=info
-ECS_CLUSTER=default
+ECS_CLUSTER=${ECS_CLUSTER}
 EOF
 
 # Write systemd unit file
