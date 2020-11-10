@@ -26,3 +26,5 @@ artifacts:
   files:
     - imagedefinitions.json
   discard-paths: yes
+
+  # aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 032796414879.dkr.ecr.us-east-1.amazonaws.com

@@ -75,32 +75,47 @@ module "vpc" {
 #   api_ecr_repo_url           = var.api_ecr_repo_url
 # }
 
+# module "ecs" {
+#   source = "./ecs"
+
+#   domain_name        = var.domain_name
+#   github_repo_name   = var.api_github_repo["name"]
+#   availability_zones = var.availability_zones
+#   tags               = var.tags
+#   ssl_cert_arn       = var.ssl_cert_arn
+#   vpc_id             = module.vpc.vpc_id
+#   subnet_ids         = module.vpc.public_subnets
+#   api_ecr_repo_url   = var.api_ecr_repo_url
+
+#   container_name = "app"
+#   alb_port       = "443"
+#   container_port = "443"
+
+#   desired_task_cpu    = "1024"
+#   desired_task_memory = "2048"
+
+#   desired_tasks     = 1
+#   min_tasks         = 1
+#   max_tasks         = 3
+#   cpu_to_scale_down = 20
+#   cpu_to_scale_up   = 80
+
+#   environment_variables = var.api_env_vars
+# }
+
 module "ecs" {
   source = "./ecs"
 
-  domain_name        = var.domain_name
-  github_repo_name   = var.api_github_repo["name"]
-  availability_zones = var.availability_zones
   tags               = var.tags
+  public_subnets     = var.public_subnet_cidrs
+  azs                = var.availability_zones
+  cluster_name       = "${var.tags["Name"]}-cluster"
+  key_name           = "ecstest"
+  cidr               = var.vpc_cidr
+  availability_zones = var.availability_zones
   ssl_cert_arn       = var.ssl_cert_arn
   vpc_id             = module.vpc.vpc_id
   subnet_ids         = module.vpc.public_subnets
-  api_ecr_repo_url   = var.api_ecr_repo_url
-
-  container_name = "app"
-  alb_port       = "443"
-  container_port = "443"
-
-  desired_task_cpu    = "1024"
-  desired_task_memory = "2048"
-
-  desired_tasks     = 1
-  min_tasks         = 1
-  max_tasks         = 3
-  cpu_to_scale_down = 20
-  cpu_to_scale_up   = 80
-
-  environment_variables = var.api_env_vars
-
 }
+
 

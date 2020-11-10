@@ -18,96 +18,59 @@ data "aws_ami" "amazon_linux" {
   owners = ["amazon", "self"]
 }
 
-resource "aws_security_group" "app_sg" {
-  name        = "${var.tags["Name"]}-app-sg"
-  description = "Default security group to allow inbound/outbound from the VPC"
+resource "aws_security_group" "ec2-sg" {
+  name        = "allow-all-ec2"
+  description = "allow all"
   vpc_id      = var.vpc_id
-
   ingress {
-    from_port = "0"
-    to_port   = "0"
-    protocol  = "-1"
-    self      = true
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
-
   egress {
-    from_port = "0"
-    to_port   = "0"
-    protocol  = "-1"
-    self      = "true"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = var.tags
+  tags = {
+    Name = "mkerimova"
+  }
 }
 
-resource "aws_launch_configuration" "app" {
-  name                        = var.tags["Name"]
-  image_id                    = data.aws_ami.amazon_linux.id
-  instance_type               = "t2.micro"
-  iam_instance_profile        = aws_iam_instance_profile.ecs_service_role.name
-  associate_public_ip_address = false
-  security_groups             = [aws_security_group.app_sg.id]
-
+resource "aws_launch_configuration" "lc" {
+  name          = "test_ecs"
+  image_id      = data.aws_ami.amazon_linux.id
+  instance_type = "t2.micro"
   lifecycle {
     create_before_destroy = true
   }
-
-  user_data = <<EOF
+  iam_instance_profile        = aws_iam_instance_profile.ecs_service_role.name
+  key_name                    = var.key_name
+  security_groups             = [aws_security_group.ec2-sg.id]
+  associate_public_ip_address = true
+  user_data                   = <<EOF
 #! /bin/bash
 sudo apt-get update
-sudo echo "ECS_CLUSTER=${var.tags["Name"]}-cluster" >> /etc/ecs/ecs.config
+sudo echo "ECS_CLUSTER=${var.cluster_name}" >> /etc/ecs/ecs.config
 EOF
 }
 
-resource "aws_autoscaling_group" "app_scale_target" {
-  name                      = var.tags["Name"]
-  vpc_zone_identifier       = var.subnet_ids
-  min_size                  = var.min_tasks
-  max_size                  = var.max_tasks
-  desired_capacity          = var.desired_tasks
+resource "aws_autoscaling_group" "asg" {
+  name                      = "test-asg"
+  launch_configuration      = aws_launch_configuration.lc.name
+  min_size                  = 1
+  max_size                  = 2
+  desired_capacity          = 1
   health_check_type         = "ELB"
   health_check_grace_period = 300
-  launch_configuration      = aws_launch_configuration.app.name
+  vpc_zone_identifier       = var.subnet_ids
 
-  target_group_arns     = [aws_lb_target_group.target_group.arn]
+  target_group_arns     = [aws_lb_target_group.lb_target_group.arn]
   protect_from_scale_in = true
   lifecycle {
     create_before_destroy = true
   }
 }
-
-resource "aws_cloudwatch_metric_alarm" "cpu_utilization_high" {
-  alarm_name          = "${var.tags["Name"]}-CPU-Utilization-High"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "1"
-  metric_name         = "CPUUtilization"
-  namespace           = "AWS/ECS"
-  period              = "60"
-  statistic           = "Average"
-  threshold           = var.cpu_to_scale_up
-
-  dimensions = {
-    ClusterName = aws_ecs_cluster.cluster.name
-    ServiceName = aws_ecs_service.web_api.name
-  }
-
-}
-
-
-resource "aws_cloudwatch_metric_alarm" "cpu_utilization_low" {
-  alarm_name          = "${var.tags["Name"]}-CPU-Utilization-Low"
-  comparison_operator = "LessThanThreshold"
-  evaluation_periods  = "1"
-  metric_name         = "CPUUtilization"
-  namespace           = "AWS/ECS"
-  period              = "60"
-  statistic           = "Average"
-  threshold           = var.cpu_to_scale_down
-
-  dimensions = {
-    ClusterName = aws_ecs_cluster.cluster.name
-    ServiceName = aws_ecs_service.web_api.name
-  }
-}
-
-
