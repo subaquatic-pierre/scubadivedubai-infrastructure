@@ -32,76 +32,42 @@ module "vpc" {
   tags = var.tags
 }
 
-# module "storefront" {
-#   source = "./storefront"
+module "storefront" {
+  source = "./storefront"
 
-#   tags         = var.tags
-#   ssl_cert_arn = var.ssl_cert_arn
-#   # Root domain
-#   domain_name = var.domain_name
-#   # Shop domain
-#   shop_domain_name = var.shop_domain_name
-#   # Www domain
-#   www_domain_name = var.www_domain_name
-# }
+  tags             = var.tags
+  ssl_cert_arn     = var.ssl_cert_arn
+  domain_name      = var.domain_name
+  shop_domain_name = var.shop_domain_name
+  www_domain_name  = var.www_domain_name
+}
 
-# module "route53" {
-#   source = "./route53"
+module "route53" {
+  source = "./route53"
 
-#   # Root domain
-#   domain_name            = var.domain_name
-#   cf_domain_name_main    = module.storefront.cf_domain_name_main
-#   cf_hosted_zone_id_main = module.storefront.cf_hosted_zone_id_main
-#   # Www domain
-#   www_domain_name       = var.www_domain_name
-#   cf_domain_name_www    = module.storefront.cf_domain_name_www
-#   cf_hosted_zone_id_www = module.storefront.cf_hosted_zone_id_www
-#   # Shop domain
-#   shop_domain_name = var.shop_domain_name
-# }
+  domain_name            = var.domain_name
+  cf_domain_name_main    = module.storefront.cf_domain_name_main
+  cf_hosted_zone_id_main = module.storefront.cf_hosted_zone_id_main
+  www_domain_name        = var.www_domain_name
+  cf_domain_name_www     = module.storefront.cf_domain_name_www
+  cf_hosted_zone_id_www  = module.storefront.cf_hosted_zone_id_www
+  shop_domain_name       = var.shop_domain_name
+}
 
-# module "pipelines" {
-#   source = "./pipelines"
+module "pipelines" {
+  source = "./pipelines"
 
-#   aws_account_id             = var.aws_account_id
-#   tags                       = var.tags
-#   storefront_site_bucket     = module.storefront.bucket_main
-#   storefront_cf_distribution = module.storefront.cf_distribution_id_main
-#   github_token               = var.github_token
-#   github_account             = var.github_account
-#   storefront_github_repo     = var.storefront_github_repo
-#   api_github_repo            = var.api_github_repo
-#   subnet_ids                 = module.network.public_subnet_ids
-#   api_ecr_repo_url           = var.api_ecr_repo_url
-# }
-
-# module "ecs" {
-#   source = "./ecs"
-
-#   domain_name        = var.domain_name
-#   github_repo_name   = var.api_github_repo["name"]
-#   availability_zones = var.availability_zones
-#   tags               = var.tags
-#   ssl_cert_arn       = var.ssl_cert_arn
-#   vpc_id             = module.vpc.vpc_id
-#   subnet_ids         = module.vpc.public_subnets
-#   api_ecr_repo_url   = var.api_ecr_repo_url
-
-#   container_name = "app"
-#   alb_port       = "443"
-#   container_port = "443"
-
-#   desired_task_cpu    = "1024"
-#   desired_task_memory = "2048"
-
-#   desired_tasks     = 1
-#   min_tasks         = 1
-#   max_tasks         = 3
-#   cpu_to_scale_down = 20
-#   cpu_to_scale_up   = 80
-
-#   environment_variables = var.api_env_vars
-# }
+  aws_account_id             = var.aws_account_id
+  tags                       = var.tags
+  storefront_site_bucket     = module.storefront.bucket_main
+  storefront_cf_distribution = module.storefront.cf_distribution_id_main
+  github_token               = var.github_token
+  github_account             = var.github_account
+  storefront_github_repo     = var.storefront_github_repo
+  api_github_repo            = var.api_github_repo
+  subnet_ids                 = module.vpc.public_subnets
+  api_ecr_repo_url           = var.api_ecr_app_uri
+}
 
 module "ecs" {
   source = "./ecs"
@@ -114,9 +80,8 @@ module "ecs" {
   ssl_cert_arn       = var.ssl_cert_arn
   vpc_id             = module.vpc.vpc_id
   subnet_ids         = module.vpc.public_subnets
-
-  ecr_nginx_uri = var.api_ecr_nginx_uri
-  ecr_app_uri   = var.api_ecr_app_uri
+  ecr_nginx_uri      = var.api_ecr_nginx_uri
+  ecr_app_uri        = var.api_ecr_app_uri
 }
 
 

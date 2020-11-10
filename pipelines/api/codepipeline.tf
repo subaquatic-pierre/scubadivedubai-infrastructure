@@ -60,7 +60,7 @@ resource "aws_codepipeline" "prod_pipeline" {
 
       configuration = {
         ClusterName = "${var.tags["Name"]}-cluster"
-        ServiceName = var.tags["Name"]
+        ServiceName = "${var.tags["Name"]}-api-service"
         FileName    = "imagedefinitions.json"
       }
     }

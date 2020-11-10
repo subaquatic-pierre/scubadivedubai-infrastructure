@@ -27,7 +27,7 @@ resource "aws_security_group" "lb" {
 }
 
 resource "aws_lb_target_group" "api_target_group" {
-  name        = "masha-target-group"
+  name        = "${var.tags["Name"]}-target-group"
   port        = "80"
   protocol    = "HTTP"
   target_type = "instance"

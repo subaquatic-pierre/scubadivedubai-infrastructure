@@ -27,7 +27,7 @@ resource "aws_codebuild_project" "api_build" {
       repository_url     = var.api_ecr_repo_url
       region             = var.region
       cluster_name       = "${var.tags["Name"]}-${var.tags["layer"]}-cluster"
-      container_name     = "${var.tags["Name"]}-${var.tags["layer"]}"
+      container_name     = "app"
       security_group_ids = join(",", var.subnet_ids)
     })
   }
