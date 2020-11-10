@@ -27,14 +27,19 @@ variable "api_github_repo" {
 # ECS Variables
 # ------
 
-variable "api_ecr_repo_url" {
+variable "api_ecr_app_uri" {
   type        = string
-  description = "API AWS ECR repository"
+  description = "API App ECR repository uri"
 }
 
-variable "api_env_vars" {
+variable "api_ecr_nginx_uri" {
+  type        = string
+  description = "API Nginx ECR repository uri"
+}
+
+variable "env_vars_app" {
   type        = map(string)
-  description = "Environment variables for API ECR task definition"
+  description = "Environment variables for API App ECR task definition"
 }
 
 # ------
