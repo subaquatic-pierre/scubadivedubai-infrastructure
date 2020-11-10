@@ -1,20 +1,20 @@
 [
   {
     "name": "nginx",
-    "image": "032796414879.dkr.ecr.us-east-1.amazonaws.com/nginx_test",
+    "image": "${ECR_NGINX_URI}",
     "memory": 256,
     "cpu": 256,
     "essential": true,
     "portMappings": [
       {
-        "containerPort": 80,
+        "containerPort": 443,
         "protocol": "tcp"
       }
     ],
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-group": "awslogs-nginx-ecs",
+        "awslogs-group": "${LOG_GROUP}",
         "awslogs-region": "us-east-1",
         "awslogs-stream-prefix": "nginx"
       }

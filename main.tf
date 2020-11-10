@@ -14,7 +14,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "scubadivedubai-terraform-backend"
-    key    = "scubadivedubai-terraform-backend"
+    key    = "tfstate/scubadivedubai-terraform-backend"
     region = "us-east-1"
   }
 }
@@ -109,13 +109,14 @@ module "ecs" {
   tags               = var.tags
   public_subnets     = var.public_subnet_cidrs
   azs                = var.availability_zones
-  cluster_name       = "${var.tags["Name"]}-cluster"
-  key_name           = "ecstest"
   cidr               = var.vpc_cidr
   availability_zones = var.availability_zones
   ssl_cert_arn       = var.ssl_cert_arn
   vpc_id             = module.vpc.vpc_id
   subnet_ids         = module.vpc.public_subnets
+
+  ecr_nginx_uri = var.api_ecr_nginx_uri
+  ecr_app_uri   = var.api_ecr_app_uri
 }
 
 
