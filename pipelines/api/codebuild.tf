@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "api_build" {
-  name          = "${var.tags["name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-codebuild"
+  name          = "${var.tags["Name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-codebuild"
   service_role  = var.codebuild_role
   badge_enabled = false
   tags          = var.tags
@@ -26,8 +26,8 @@ resource "aws_codebuild_project" "api_build" {
       account_id         = var.aws_account_id
       repository_url     = var.api_ecr_repo_url
       region             = var.region
-      cluster_name       = "${var.tags["name"]}-${var.tags["layer"]}-cluster"
-      container_name     = "${var.tags["name"]}-${var.tags["layer"]}"
+      cluster_name       = "${var.tags["Name"]}-${var.tags["layer"]}-cluster"
+      container_name     = "${var.tags["Name"]}-${var.tags["layer"]}"
       security_group_ids = join(",", var.subnet_ids)
     })
   }

@@ -67,18 +67,10 @@ resource "aws_cloudfront_distribution" "www" {
     }
   }
 
-  http_version        = "http2"
-  enabled             = true
-  is_ipv6_enabled     = true
-  default_root_object = "index.html"
-  aliases             = [var.www_domain_name]
-
-  custom_error_response {
-    error_code            = "404"
-    error_caching_min_ttl = "300"
-    response_code         = "200"
-    response_page_path    = "/404.html"
-  }
+  http_version    = "http2"
+  enabled         = true
+  is_ipv6_enabled = true
+  aliases         = [var.www_domain_name]
 
   default_cache_behavior {
     target_origin_id = "origin-${var.www_domain_name}"

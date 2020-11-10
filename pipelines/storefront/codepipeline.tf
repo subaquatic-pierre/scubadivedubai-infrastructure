@@ -1,5 +1,5 @@
 resource "aws_codepipeline" "prod_pipeline" {
-  name     = "${var.tags["name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-pipeline"
+  name     = "${var.tags["Name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-pipeline"
   role_arn = var.codepipeline_role
 
   artifact_store {
@@ -41,7 +41,7 @@ resource "aws_codepipeline" "prod_pipeline" {
       output_artifacts = ["build_output"]
 
       configuration = {
-        ProjectName = "${var.tags["name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-codebuild"
+        ProjectName = "${var.tags["Name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-codebuild"
       }
     }
   }

@@ -1,5 +1,5 @@
 resource "aws_codepipeline" "prod_pipeline" {
-  name     = "${var.tags["name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-pipeline"
+  name     = "${var.tags["Name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-pipeline"
   role_arn = var.codepipeline_role
   tags     = var.tags
 
@@ -42,7 +42,7 @@ resource "aws_codepipeline" "prod_pipeline" {
       output_artifacts = ["imagedefinitions"]
 
       configuration = {
-        ProjectName = "${var.tags["name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-codebuild"
+        ProjectName = "${var.tags["Name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-codebuild"
       }
     }
   }
@@ -59,8 +59,8 @@ resource "aws_codepipeline" "prod_pipeline" {
       version         = "1"
 
       configuration = {
-        ClusterName = "${var.tags["name"]}-cluster"
-        ServiceName = var.tags["name"]
+        ClusterName = "${var.tags["Name"]}-cluster"
+        ServiceName = var.tags["Name"]
         FileName    = "imagedefinitions.json"
       }
     }

@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "static_web_build" {
-  name          = "${var.tags["name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-codebuild"
+  name          = "${var.tags["Name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-codebuild"
   service_role  = var.codebuild_role
   badge_enabled = false
   tags          = var.tags
