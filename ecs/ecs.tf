@@ -32,7 +32,7 @@ resource "aws_ecs_service" "api_service" {
   name            = "${var.tags["Name"]}-api-service"
   cluster         = aws_ecs_cluster.api_cluster.id
   task_definition = aws_ecs_task_definition.api_task_definition.arn
-  desired_count   = 1
+  desired_count   = 2
   ordered_placement_strategy {
     type  = "binpack"
     field = "cpu"
@@ -42,10 +42,6 @@ resource "aws_ecs_service" "api_service" {
     target_group_arn = aws_lb_target_group.api_target_group.arn
     container_name   = "nginx"
     container_port   = 443
-  }
-
-  lifecycle {
-    ignore_changes = [desired_count]
   }
 
   launch_type = "EC2"
