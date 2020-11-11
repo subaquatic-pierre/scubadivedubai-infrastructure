@@ -3,5 +3,5 @@ output "alb_dns" {
 }
 
 output "alb_zone_id" {
-  value = aws_lb_api_lb.zone_id
+  value = aws_lb.api_lb.zone_id
 }
