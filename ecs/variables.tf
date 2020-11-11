@@ -1,4 +1,4 @@
-variable "tags" {}
+variable "domain_name" {}
 variable "azs" {}
 variable "public_subnets" {}
 variable "cidr" {}
@@ -8,3 +8,4 @@ variable "vpc_id" {}
 variable "subnet_ids" {}
 variable "ecr_nginx_uri" {}
 variable "ecr_app_uri" {}
+variable "tags" {}

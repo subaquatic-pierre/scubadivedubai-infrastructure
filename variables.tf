@@ -50,16 +50,6 @@ variable "domain_name" {
   description = "Root Route53 domain name"
 }
 
-variable "shop_domain_name" {
-  type        = string
-  description = "The FQDN of the website and also name of the S3 bucket"
-}
-
-variable "www_domain_name" {
-  type        = string
-  description = "The FQDN of the website and also name of the S3 bucket"
-}
-
 variable "ssl_cert_arn" {
   type        = string
   description = "ARN of the certificate covering the fqdn and its apex?"
