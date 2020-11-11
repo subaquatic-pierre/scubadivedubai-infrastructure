@@ -1,5 +1,5 @@
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
-  comment = "${var.domain_name}-cloudfront-access-identity"
+  comment = "${var.tags["Name"]}-cloudfront-access-identity"
 }
 
 resource "aws_cloudfront_distribution" "main" {
@@ -59,7 +59,7 @@ resource "aws_cloudfront_distribution" "main" {
 
 resource "aws_cloudfront_distribution" "www" {
   origin {
-    origin_id   = "origin-${var.www_domain_name}"
+    origin_id   = "redirect-${var.www_domain_name}"
     domain_name = aws_s3_bucket.www.bucket_regional_domain_name
 
     s3_origin_config {
@@ -73,15 +73,16 @@ resource "aws_cloudfront_distribution" "www" {
   aliases         = [var.www_domain_name]
 
   default_cache_behavior {
-    target_origin_id = "origin-${var.www_domain_name}"
+    target_origin_id = "redirect-${var.www_domain_name}"
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
     compress         = true
 
     forwarded_values {
-      query_string = true
+      query_string = false
+
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
 

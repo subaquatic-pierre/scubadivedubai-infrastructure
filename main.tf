@@ -52,6 +52,8 @@ module "route53" {
   cf_domain_name_www     = module.storefront.cf_domain_name_www
   cf_hosted_zone_id_www  = module.storefront.cf_hosted_zone_id_www
   shop_domain_name       = var.shop_domain_name
+  alb_dns                = module.ecs.alb_dns
+  alb_zone_id            = module.ecs.alb_zone_id
 }
 
 module "pipelines" {

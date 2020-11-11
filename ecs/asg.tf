@@ -19,15 +19,17 @@ data "aws_ami" "amazon_linux" {
 }
 
 resource "aws_security_group" "ec2_sg" {
-  name        = "allow-all-ec2"
-  description = "Allow all ports and IP"
+  name        = "${var.tags["Name"]}-ec2-sg"
+  description = "Allow only VPC traffic"
   vpc_id      = var.vpc_id
+
   ingress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.cidr]
   }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -59,8 +61,8 @@ resource "aws_autoscaling_group" "api_asg" {
   name                      = "${var.tags["Name"]}-api-asg"
   launch_configuration      = aws_launch_configuration.api_launch_config.name
   min_size                  = 1
-  max_size                  = 4
-  desired_capacity          = 2
+  max_size                  = 2
+  desired_capacity          = 1
   health_check_type         = "ELB"
   health_check_grace_period = 300
   vpc_zone_identifier       = var.subnet_ids

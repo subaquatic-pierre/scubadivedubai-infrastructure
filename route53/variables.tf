@@ -10,3 +10,5 @@ variable "cf_hosted_zone_id_www" {}
 
 # Shop domain
 variable "shop_domain_name" {}
+variable "alb_dns" {}
+variable "alb_zone_id" {}

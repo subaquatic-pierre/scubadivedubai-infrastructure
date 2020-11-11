@@ -8,12 +8,19 @@ resource "aws_lb" "api_lb" {
 }
 
 resource "aws_security_group" "lb" {
-  name   = "allow-all-lb"
-  vpc_id = var.vpc_id
+  name        = "${var.tags["Name"]}-lb-sg"
+  description = "Allow only port 443 and 80 internet traffic"
+  vpc_id      = var.vpc_id
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
   egress {

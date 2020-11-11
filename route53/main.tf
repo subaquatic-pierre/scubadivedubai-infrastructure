@@ -29,3 +29,16 @@ resource "aws_route53_record" "www" {
     evaluate_target_health = false
   }
 }
+
+resource "aws_route53_record" "api_lb" {
+  zone_id         = data.aws_route53_zone.main.id
+  name            = "api.${var.domain_name}"
+  type            = "A"
+  allow_overwrite = true
+
+  alias {
+    name                   = var.alb_dns
+    zone_id                = var.alb_zone_id
+    evaluate_target_health = false
+  }
+}
