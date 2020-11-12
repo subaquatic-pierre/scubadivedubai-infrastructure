@@ -22,7 +22,9 @@ terraform {
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name            = "${var.tags["Name"]}-vpc"
+  name = "${var.tags["Name"]}-vpc"
+  # create_database_subnet_group       = true
+  # create_database_subnet_route_table = true
   cidr            = var.vpc_cidr
   azs             = var.availability_zones
   private_subnets = var.private_subnet_cidrs
@@ -66,6 +68,7 @@ module "ecs" {
   ecr_nginx_uri      = var.api_ecr_nginx_uri
   ecr_app_uri        = var.api_ecr_app_uri
   tags               = var.tags
+  vpc_cidr           = var.vpc_cidr
 
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.public_subnets

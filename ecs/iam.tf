@@ -26,3 +26,31 @@ resource "aws_iam_role_policy_attachment" "ecs_instance_role_attachment" {
 resource "aws_iam_instance_profile" "ecs_service_role" {
   role = aws_iam_role.ecs_instance_role.name
 }
+
+resource "aws_iam_role_policy_attachment" "s3_media_bucket" {
+  role       = aws_iam_role.ecs_instance_role.name
+  policy_arn = aws_iam_policy.s3_media_bucket_policy.arn
+}
+
+resource "aws_iam_policy" "s3_media_bucket_policy" {
+  name        = "ecs-bucket-access-policy"
+  path        = "/"
+  description = "Allow access to media bucket from ECS EC2 role"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+

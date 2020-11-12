@@ -9,3 +9,4 @@ variable "subnet_ids" {}
 variable "ecr_nginx_uri" {}
 variable "ecr_app_uri" {}
 variable "tags" {}
+variable "vpc_cidr" {}
