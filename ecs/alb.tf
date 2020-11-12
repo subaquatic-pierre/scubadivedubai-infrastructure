@@ -15,6 +15,30 @@ resource "aws_lb" "api_lb" {
 
 resource "aws_s3_bucket" "lb_logs" {
   bucket = "api-lb-log-bucket"
+
+  lifecycle_rule {
+    id      = "log"
+    enabled = true
+
+    tags = {
+      "rule"      = "log"
+      "autoclean" = "true"
+    }
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA" # or "ONEZONE_IA"
+    }
+
+    transition {
+      days          = 60
+      storage_class = "GLACIER"
+    }
+
+    expiration {
+      days = 90
+    }
+  }
 }
 
 resource "aws_s3_bucket_policy" "lb_log_bucket" {

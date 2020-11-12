@@ -41,7 +41,7 @@ resource "aws_security_group" "ec2_sg" {
 }
 
 resource "aws_launch_configuration" "api_launch_config" {
-  name          = "${var.tags["Name"]}-api-spot"
+  name          = "${var.tags["Name"]}-api"
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = "t2.small"
   spot_price    = "0.01"
@@ -71,5 +71,15 @@ resource "aws_autoscaling_group" "api_asg" {
   target_group_arns = [aws_lb_target_group.api_target_group.arn]
   lifecycle {
     create_before_destroy = true
+  }
+
+  dynamic "tag" {
+    for_each = var.tags
+
+    content {
+      key                 = tag.key
+      value               = tag.value
+      propagate_at_launch = true
+    }
   }
 }

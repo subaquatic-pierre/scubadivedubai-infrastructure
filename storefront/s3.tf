@@ -10,6 +10,7 @@ resource "aws_s3_bucket" "main" {
 # S3 bucket for redirection
 resource "aws_s3_bucket" "www" {
   bucket = "www.${var.domain_name}"
+  acl    = "public-read"
 
   website {
     redirect_all_requests_to = "https://${var.domain_name}"
