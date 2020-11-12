@@ -41,9 +41,10 @@ resource "aws_security_group" "ec2_sg" {
 }
 
 resource "aws_launch_configuration" "api_launch_config" {
-  name          = "${var.tags["Name"]}-api"
+  name          = "${var.tags["Name"]}-api-spot"
   image_id      = data.aws_ami.amazon_linux.id
-  instance_type = "t2.micro"
+  instance_type = "t2.small"
+  spot_price    = "0.01"
   lifecycle {
     create_before_destroy = true
   }
@@ -61,8 +62,8 @@ resource "aws_autoscaling_group" "api_asg" {
   name                      = "${var.tags["Name"]}-api-asg"
   launch_configuration      = aws_launch_configuration.api_launch_config.name
   min_size                  = 1
-  max_size                  = 4
-  desired_capacity          = 2
+  max_size                  = 1
+  desired_capacity          = 1
   health_check_type         = "ELB"
   health_check_grace_period = 300
   vpc_zone_identifier       = var.subnet_ids
