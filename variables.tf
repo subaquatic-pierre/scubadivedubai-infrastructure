@@ -76,4 +76,23 @@ variable "availability_zones" {
   type = list
 }
 
+# ------
+# Database Vars
+# ------
+variable "username" {
+  type = string
+}
+
+variable "password" {
+  type = string
+}
+
+variable "db_endpoint" {
+  type = string
+}
+
+variable "db_url" {
+  type = string
+}
+
 
