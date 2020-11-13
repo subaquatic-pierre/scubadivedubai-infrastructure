@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "main" {
   bucket = var.domain_name
-  acl    = "public-read"
+  acl    = "private"
 
   website {
     index_document = "index.html"
@@ -27,7 +27,9 @@ resource "aws_s3_bucket_policy" "main" {
         {
             "Sid": "PublicReadGetObject",
             "Effect": "Allow",
-            "Principal": "*",
+            "Principal": {
+              "AWS": "${aws_cloudfront_origin_access_identity.main.iam_arn}"
+              },
             "Action": [
                 "s3:GetObject"
             ],
