@@ -33,6 +33,7 @@ module "vpc" {
 module "storefront" {
   source = "./storefront"
 
+  prefix       = "${var.tags["Name"]}-storefront"
   domain_name  = var.domain_name
   ssl_cert_arn = var.ssl_cert_arn
   tags         = var.tags
@@ -54,9 +55,10 @@ module "pipelines" {
   storefront_cf_distribution = module.storefront.cf_distribution_id_main
 }
 
-module "ecs" {
-  source = "./ecs"
+module "api" {
+  source = "./api"
 
+  prefix             = "${var.tags["Name"]}-api"
   domain_name        = var.domain_name
   public_subnets     = var.public_subnet_cidrs
   azs                = var.availability_zones

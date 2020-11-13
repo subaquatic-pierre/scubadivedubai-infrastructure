@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "codebuild_bucket" {
-  bucket        = "${var.tags["Name"]}-${var.tags["layer"]}-${var.github_repo["prod_branch"]}-pipeline"
+  bucket        = "${var.prefix}-pipeline"
   acl           = "private"
   force_destroy = true
 

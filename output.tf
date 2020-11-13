@@ -1,5 +1,5 @@
 output "alb_dns" {
-  value = module.ecs.alb_dns
+  value = module.api.alb_dns
 }
 
 output "domain" {

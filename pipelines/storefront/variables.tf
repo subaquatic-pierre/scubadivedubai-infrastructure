@@ -1,4 +1,5 @@
 variable "aws_account_id" {}
+variable "prefix" {}
 variable "storefront_site_bucket" {}
 variable "storefront_cf_distribution" {}
 variable "tags" {}

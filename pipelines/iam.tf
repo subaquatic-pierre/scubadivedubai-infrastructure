@@ -1,5 +1,5 @@
 resource "aws_iam_role" "codepipeline_role" {
-  name               = "codepipeline-${var.tags["Name"]}-role"
+  name               = "${var.tags["Name"]}-codepipeline-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -19,7 +19,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codepipeline_policy" {
-  name = "codepipeline-${var.tags["Name"]}-policy"
+  name = "${var.tags["Name"]}-codepipeline-policy"
   role = aws_iam_role.codepipeline_role.id
 
   policy = <<EOF
@@ -129,7 +129,7 @@ EOF
 }
 
 resource "aws_iam_role" "codebuild_role" {
-  name               = "codebuild-${var.tags["Name"]}-role"
+  name               = "${var.tags["Name"]}-codebuild-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -147,7 +147,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codebuild_policy" {
-  name   = "codebuild-${var.tags["Name"]}-policy"
+  name   = "${var.tags["Name"]}-codebuild-policy"
   role   = aws_iam_role.codebuild_role.id
   policy = <<EOF
 {
