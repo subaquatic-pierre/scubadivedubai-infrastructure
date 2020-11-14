@@ -12,7 +12,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the application Docker image...
-      - docker build -t $REPOSITORY_URI:latest ./app/ 
+      - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
       - echo ------------------
       - echo Building the Nginx Docker image...
