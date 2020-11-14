@@ -8,25 +8,23 @@ phases:
   install:
     runtime-versions:
       nodejs: 12
-    # commands:
-    #   # - npm install -g jest
-    #   # - npm install -g gatsby
   pre_build:
     commands:
-      - echo Deploy website
-      # - npm install
+      - echo Install dependencies website
+      - npm install
   build:
     commands:
-      - rm -rf .git
-      - aws s3 sync --delete . s3://${bucket_name} --cache-control max-age=3600
-      # - gatsby build
-      # - npm run test
+      - echo Build website
+      - API_URI=https://api.scubadivedubai.com/grapqhql/ npm run build
+      - aws s3 --rm s3://${bucket_name} --recursive
+      - echo Complete clearing the bucket
   post_build:
     commands:
-      - echo 'Invalidating distribution cache'
+      - echo Invalidating distribution cache
       - aws cloudfront create-invalidation --distribution-id ${distribution_id} --paths "/*"
-      - aws s3 cp --recursive . s3://${bucket_name}/
-
+      - echo Copy build files to bucket
+      - aws s3 cp --recursive dist/ s3://${bucket_name}/
+      - echo Completed copying over dist files
 artifacts:
   type: zip
   files:
