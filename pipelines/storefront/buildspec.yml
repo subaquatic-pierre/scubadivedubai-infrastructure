@@ -25,9 +25,5 @@ phases:
       - echo Copy build files to bucket
       - aws s3 cp --recursive dist/ s3://${bucket_name}/
       - echo Completed copying over dist files
-artifacts:
-  type: zip
-  files:
-    - /index.html
 
 
