@@ -15,8 +15,8 @@ phases:
   build:
     commands:
       - echo Build website
-      - API_URI=https://api.scubadivedubai.com/grapqhql/ npm run build
-      - aws s3 --rm s3://${bucket_name} --recursive
+      - API_URI=https://api.scubadivedubai.com/graphql/ npm run build
+      - aws s3 rm s3://${bucket_name} --recursive
       - echo Complete clearing the bucket
   post_build:
     commands:
@@ -28,6 +28,6 @@ phases:
 artifacts:
   type: zip
   files:
-    - index.html
+    - /index.html
 
 
