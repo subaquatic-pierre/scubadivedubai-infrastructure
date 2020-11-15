@@ -47,6 +47,15 @@ module "storefront" {
   tags         = var.tags
 }
 
+module "dashboard" {
+  source = "./dashboard"
+
+  prefix       = "${var.tags["Name"]}-dashboard"
+  domain_name  = var.domain_name
+  ssl_cert_arn = var.ssl_cert_arn
+  tags         = var.tags
+}
+
 module "pipelines" {
   source = "./pipelines"
 
@@ -55,12 +64,15 @@ module "pipelines" {
   github_account         = var.github_account
   storefront_github_repo = var.storefront_github_repo
   api_github_repo        = var.api_github_repo
+  dashboard_github_repo  = var.dashboard_github_repo
   api_ecr_repo_url       = var.api_ecr_app_uri
   tags                   = var.tags
 
   subnet_ids                 = module.vpc.public_subnets
   storefront_site_bucket     = module.storefront.bucket_main
   storefront_cf_distribution = module.storefront.cf_distribution_id_main
+  dashboard_site_bucket      = module.dashboard.bucket_main
+  dashboard_cf_distribution  = module.dashboard.cf_distribution_id_main
 }
 
 module "api" {

@@ -16,6 +16,22 @@ module "storefront_pipeline" {
   codepipeline_role = aws_iam_role.codepipeline_role.arn
 }
 
+module "dashboard_pipeline" {
+  source = "./dashboard"
+
+  aws_account_id            = var.aws_account_id
+  prefix                    = "${var.tags["Name"]}-dashboard"
+  tags                      = var.tags
+  dashboard_site_bucket     = var.dashboard_site_bucket
+  dashboard_cf_distribution = var.dashboard_cf_distribution
+  github_account            = var.github_account
+  github_token              = var.github_token
+  github_repo               = var.dashboard_github_repo
+
+  codebuild_role    = aws_iam_role.codebuild_role.arn
+  codepipeline_role = aws_iam_role.codepipeline_role.arn
+}
+
 module "api_pipeline" {
   source = "./api"
 

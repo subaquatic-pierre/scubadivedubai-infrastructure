@@ -23,6 +23,11 @@ variable "api_github_repo" {
   description = "API repository"
 }
 
+variable "dashboard_github_repo" {
+  type        = map(string)
+  description = "Dashboard repository"
+}
+
 # ------
 # ECS Variables
 # ------
