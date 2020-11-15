@@ -7,13 +7,11 @@ phases:
       - aws --version
       - aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account_id}.dkr.ecr.${region}.amazonaws.com
       - REPOSITORY_URI=${repository_url}
-      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
   build:
     commands:
       - echo Build started on `date`
       - echo Building the application Docker image...
       - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
       - echo ------------------
       - echo Building the Nginx Docker image...
       - docker build -t 032796414879.dkr.ecr.us-east-1.amazonaws.com/scubadivedubai-api-nginx:latest ./nginx/ 
@@ -25,7 +23,7 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - docker push 032796414879.dkr.ecr.us-east-1.amazonaws.com/scubadivedubai-api-nginx:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"${container_name}","imageUri":"%s"},{"name":"nginx","imageUri":"032796414879.dkr.ecr.us-east-1.amazonaws.com/scubadivedubai-api-nginx:latest"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"${container_name}","imageUri":"%s"},{"name":"nginx","imageUri":"032796414879.dkr.ecr.us-east-1.amazonaws.com/scubadivedubai-api-nginx:latest"}]' $REPOSITORY_URI:latest > imagedefinitions.json
 artifacts:
   files:
     - imagedefinitions.json
