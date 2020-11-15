@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "dashboard" {
   bucket = "dashboard.${var.domain_name}"
-  acl    = "private"
+  acl    = "public-read"
 
   website {
     index_document = "index.html"

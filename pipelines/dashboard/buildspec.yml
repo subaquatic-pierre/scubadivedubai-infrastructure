@@ -23,7 +23,7 @@ phases:
       - echo Invalidating distribution cache
       - aws cloudfront create-invalidation --distribution-id ${distribution_id} --paths "/*"
       - echo Copy build files to bucket
-      - aws s3 cp --recursive build/ s3://${bucket_name}/
+      - aws s3 cp --recursive build/dashboard/ s3://${bucket_name}/
       - echo Completed copying over dist files
 
 
