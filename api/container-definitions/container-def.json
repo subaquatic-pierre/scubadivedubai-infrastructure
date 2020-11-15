@@ -1,0 +1,77 @@
+[
+  {
+    "name": "nginx",
+    "image": "${ECR_NGINX_URI}",
+    "memory": 256,
+    "essential": true,
+    "portMappings": [
+      {
+        "containerPort": 443,
+        "protocol": "tcp"
+      }
+    ],
+    "links": ["app"],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${LOG_GROUP}",
+        "awslogs-region": "us-east-1",
+        "awslogs-stream-prefix": "nginx"
+      }
+    }
+  },
+  {
+    "name": "app",
+    "image": "${ECR_APP_URI}",
+    "cpu": 512,
+    "memory": 512,
+    "essential": true,
+    "dependsOn": [
+      {
+        "condition": "START",
+        "containerName": "redis"
+      },
+      {
+        "condition": "START",
+        "containerName": "jaeger"
+      }
+    ],
+    "links": ["redis", "jaeger"],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${LOG_GROUP}",
+        "awslogs-region": "us-east-1",
+        "awslogs-stream-prefix": "app"
+      }
+    }
+  },
+  {
+    "name": "redis",
+    "image": "library/redis:5.0-alpine",
+    "memory": 256,
+    "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${LOG_GROUP}",
+        "awslogs-region": "us-east-1",
+        "awslogs-stream-prefix": "redis"
+      }
+    }
+  },
+  {
+    "name": "jaeger",
+    "image": "jaegertracing/all-in-one",
+    "memory": 256,
+    "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${LOG_GROUP}",
+        "awslogs-region": "us-east-1",
+        "awslogs-stream-prefix": "jaeger"
+      }
+    }
+  }
+]
