@@ -11,6 +11,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the application Docker image...
+      - docker login --username=subaquaticpierre --password='M0ther!and'
       - docker build -t $REPOSITORY_URI:latest .
       - echo ------------------
       - echo Building the Nginx Docker image...

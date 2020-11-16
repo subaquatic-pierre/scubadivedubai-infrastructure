@@ -25,7 +25,7 @@
     "image": "${ECR_APP_URI}",
     "cpu": 512,
     "memory": 512,
-    "essential": true,
+    "essential": false,
     "dependsOn": [
       {
         "condition": "START",
