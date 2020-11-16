@@ -20,7 +20,6 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
       - docker push 032796414879.dkr.ecr.us-east-1.amazonaws.com/scubadivedubai-api-nginx:latest
       - echo Writing image definitions file...
       - printf '[{"name":"${container_name}","imageUri":"%s"},{"name":"nginx","imageUri":"032796414879.dkr.ecr.us-east-1.amazonaws.com/scubadivedubai-api-nginx:latest"}]' $REPOSITORY_URI:latest > imagedefinitions.json
