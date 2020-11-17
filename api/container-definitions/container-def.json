@@ -10,7 +10,7 @@
         "protocol": "tcp"
       }
     ],
-    "links": ["app"],
+    "links": ["app:app"],
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
@@ -36,7 +36,7 @@
         "containerName": "jaeger"
       }
     ],
-    "links": ["redis", "jaeger"],
+    "links": ["redis:redis", "jaeger:jaeger"],
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
@@ -48,6 +48,7 @@
   },
   {
     "name": "redis",
+    "hostname": "redis",
     "image": "library/redis:5.0-alpine",
     "memory": 256,
     "essential": true,
@@ -62,6 +63,7 @@
   },
   {
     "name": "jaeger",
+    "hostname": "jaeger",
     "image": "jaegertracing/all-in-one",
     "memory": 256,
     "essential": true,
