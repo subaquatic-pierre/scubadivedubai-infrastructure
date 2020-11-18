@@ -28,3 +28,16 @@ resource "aws_route53_record" "media_bucket" {
     evaluate_target_health = false
   }
 }
+
+resource "aws_route53_record" "static_bucket" {
+  zone_id         = data.aws_route53_zone.main.id
+  name            = "static.${var.domain_name}"
+  type            = "A"
+  allow_overwrite = true
+
+  alias {
+    name                   = aws_cloudfront_distribution.static_bucket.domain_name
+    zone_id                = aws_cloudfront_distribution.static_bucket.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
