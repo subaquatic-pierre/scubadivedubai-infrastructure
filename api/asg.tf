@@ -44,8 +44,8 @@ resource "aws_launch_configuration" "api_launch_config" {
   name          = "${var.prefix}-api"
   image_id      = data.aws_ami.amazon_linux.id
   key_name      = "scubadivedubai"
-  instance_type = "t2.small"
-  spot_price    = "0.01"
+  instance_type = "t2.medium"
+  spot_price    = "0.04"
   lifecycle {
     create_before_destroy = true
   }
