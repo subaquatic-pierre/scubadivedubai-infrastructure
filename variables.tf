@@ -42,11 +42,6 @@ variable "api_ecr_nginx_uri" {
   description = "API Nginx ECR repository uri"
 }
 
-variable "env_vars_app" {
-  type        = map(string)
-  description = "Environment variables for API App ECR task definition"
-}
-
 # ------
 # Domain Variables
 # ------
@@ -84,17 +79,6 @@ variable "availability_zones" {
 # ------
 # Database Vars
 # ------
-variable "username" {
-  type = string
-}
-
-variable "password" {
-  type = string
-}
-
-variable "db_endpoint" {
-  type = string
-}
 
 variable "db_url" {
   type = string

@@ -1,0 +1,76 @@
+# ------
+# General # ------
+tags = {
+  "Name" = "example",
+  "Project" = "example.com"
+  "Environment" = "example"
+}
+
+aws_account_id = "example"
+github_token = "example"
+github_account = "example"
+
+# ------
+# Repositories
+# ------
+storefront_github_repo = {
+  "url" = "git@github.com:example/example.git",
+  "name" = "example",
+  "prod_branch" = "main",
+  "dev_branch" = "main"
+}
+
+api_github_repo = {
+  "url" = "git@github.com:example/example.git",
+  "name" = "example",
+  "prod_branch" = "main",
+  "dev_branch" = "main"
+}
+
+dashboard_github_repo = {
+  "url" = "git@github.com:example/example.git",
+  "name" = "example",
+  "prod_branch" = "main",
+  "dev_branch" = "main"
+}
+
+# ------
+# ECS # ------
+
+api_ecr_app_uri = "example.dkr.ecr.us-east-1.amazonaws.com/example"
+
+api_ecr_nginx_uri = "example.dkr.ecr.us-east-1.amazonaws.com/example"
+
+# ------
+# Domain # ------
+domain_name = "example.com"
+
+ssl_cert_arn = "arn:aws:acm:us-east-1:example:certificate/example"
+
+# ------
+# VPC # ------
+vpc_cidr = "10.0.0.0/16"
+
+private_subnet_cidrs = [
+  "10.0.0.0/24",
+  "10.0.1.0/24",
+]
+
+
+public_subnet_cidrs = [
+  "10.0.50.0/24",
+  "10.0.51.0/24",
+]
+
+availability_zones = [
+  "us-east-1a",
+  "us-east-1b",
+]
+
+# ------
+# Database Vars
+# ------
+
+db_url = "postgres://username:password@example.us-east-1.rds.amazonaws.com:5432/example"
+
+
