@@ -32,7 +32,7 @@ resource "aws_ecs_service" "api_service" {
   name            = "${var.prefix}-service"
   cluster         = aws_ecs_cluster.api_cluster.id
   task_definition = aws_ecs_task_definition.api_task_definition.arn
-  desired_count   = 1
+  desired_count   = 0
   ordered_placement_strategy {
     type  = "binpack"
     field = "cpu"
