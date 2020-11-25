@@ -1,5 +1,35 @@
 version: 0.2
 
+env:
+  variables:
+    DATABASE_URL:"postgres://scubadivedubai:ScubaDiveDubai0!@scubadivedubai-db.cluster-cguhuytcxcub.us-east-1.rds.amazonaws.com:5432/scubadivedubai_shop"
+    EMAIL_URL:"smtp://AKIAQPIWRSOPQGTLNIVV:BM1OBPMJzVv4V3rSvA2Zv663y9CzOgrrZNuRj4oR0SyY@email-smtp.us-east-1.amazonaws.com:587/?tls=True"
+    DEFAULT_FROM_EMAIL:"pierre@divesandybeach.com"
+    STATIC_URL:"/static/"
+    MEDIA_URL:"/media/"
+    CREATE_IMAGES_ON_DEMAND:"True"
+    API_URI:"https://api.scubadivedubai.com/graphql/"
+    APP_MOUNT_URI:"https://dashboard.scubadivedubai.com"
+    JAEGER_AGENT_HOST:"jaeger"
+    REDIS_URL:"redis://redis:6379/0"
+    PORT:"3000"
+    PYTHONUNBUFFERED:"1"
+    PROCESSES:"4"
+    OPENEXCHANGERATES_API_KEY:"026bbc0c5d22447ca082d6d50e575211"
+    SECRET_KEY:"supersecretkey"
+    DEBUG:"False"
+    ALLOWED_HOSTS:"api.scubadivedubai.com,dashboard.scubadivedubai.com,media.scubadivedubai.com,scubadivedubai.com"
+    PLAYGROUND_ENABLED:"True"
+    AWS_MEDIA_BUCKET_NAME:"scubadivedubai-api-media"
+    AWS_STORAGE_BUCKET_NAME:"scubadivedubai-api-static"
+    AWS_ACCESS_KEY_ID:"AKIAQPIWRSOP5NHI6LVH"
+    AWS_SECRET_ACCESS_KEY:"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"
+    AWS_MEDIA_CUSTOM_DOMAIN:"media.scubadivedubai.com"
+    AWS_STATIC_CUSTOM_DOMAIN:"static.scubadivedubai.com"
+    ALLOWED_CLIENT_HOSTS:"api.scubadivedubai.com,dashboard.scubadivedubai.com,media.scubadivedubai.com,scubadivedubai.com"
+    DEFAULT_COUNTRY:"AE"
+    DEFAULT_CURRENCY:"AED"
+
 phases:
   pre_build:
     commands:
@@ -14,16 +44,13 @@ phases:
       - docker login --username=subaquaticpierre --password='M0ther!and'
       - docker build -t $REPOSITORY_URI:latest .
       - echo ------------------
-      - echo Building the Nginx Docker image...
-      - docker build -t 032796414879.dkr.ecr.us-east-1.amazonaws.com/scubadivedubai-api-nginx:latest ./nginx/ 
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
-      - docker push 032796414879.dkr.ecr.us-east-1.amazonaws.com/scubadivedubai-api-nginx:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"${container_name}","imageUri":"%s"},{"name":"nginx","imageUri":"032796414879.dkr.ecr.us-east-1.amazonaws.com/scubadivedubai-api-nginx:latest"}]' $REPOSITORY_URI:latest > imagedefinitions.json
+      - printf '[{"name":"${container_name}","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
 artifacts:
   files:
     - imagedefinitions.json
