@@ -29,6 +29,7 @@ env:
     ALLOWED_CLIENT_HOSTS: "api.scubadivedubai.com,dashboard.scubadivedubai.com,media.scubadivedubai.com,scubadivedubai.com"
     DEFAULT_COUNTRY: "AE"
     DEFAULT_CURRENCY: "AED"
+    VATLAYER_ACCESS_KEY: "cedf249c2eed18bb4f390a3665bd9f4a"
 
 phases:
   pre_build:
