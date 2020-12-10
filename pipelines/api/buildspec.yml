@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    DATABASE_URL: "postgres://scubadivedubai:ScubaDiveDubai0!@scubadivedubai-db.cluster-cguhuytcxcub.us-east-1.rds.amazonaws.com:5432/scubadivedubai_shop"
+    DATABASE_URL: "postgres://scubadivedubai:ScubaDiveDubai0!@scubadivedubai.cguhuytcxcub.us-east-1.rds.amazonaws.com:5432/scubadivedubai_shop"
     EMAIL_URL: "smtp://AKIAQPIWRSOPQGTLNIVV:BM1OBPMJzVv4V3rSvA2Zv663y9CzOgrrZNuRj4oR0SyY@email-smtp.us-east-1.amazonaws.com:587/?tls=True"
     DEFAULT_FROM_EMAIL: "pierre@divesandybeach.com"
     STATIC_URL: "/static/"
