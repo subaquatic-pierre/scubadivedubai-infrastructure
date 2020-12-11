@@ -41,10 +41,10 @@ resource "aws_security_group" "ec2_sg" {
 }
 
 resource "aws_launch_configuration" "api_launch_config" {
-  name          = "${var.prefix}-api-api"
+  name          = "${var.prefix}-api"
   image_id      = data.aws_ami.amazon_linux.id
   key_name      = "scubadivedubai"
-  instance_type = "t2.micro"
+  instance_type = "t2.small"
   lifecycle {
     create_before_destroy = true
   }
