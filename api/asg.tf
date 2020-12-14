@@ -43,14 +43,9 @@ resource "aws_security_group" "ec2_sg" {
 resource "aws_launch_configuration" "api_launch_config" {
   name          = "${var.prefix}-api-api"
   image_id      = data.aws_ami.amazon_linux.id
-<<<<<<< HEAD
   key_name      = "AWS-EC2"
   instance_type = "t2.medium"
   spot_price    = "0.04"
-=======
-  key_name      = "scubadivedubai"
-  instance_type = "t2.small"
->>>>>>> 9283494355a5e59479a4bbea2e60dbe151a4ad09
   lifecycle {
     create_before_destroy = true
   }
