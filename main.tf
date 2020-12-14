@@ -67,6 +67,7 @@ module "pipelines" {
   dashboard_github_repo  = var.dashboard_github_repo
   api_ecr_repo_url       = var.api_ecr_app_uri
   tags                   = var.tags
+  build_secrets          = var.build_secrets
 
   subnet_ids                 = module.vpc.public_subnets
   storefront_site_bucket     = module.storefront.bucket_main
