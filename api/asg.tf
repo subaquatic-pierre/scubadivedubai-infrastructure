@@ -41,9 +41,9 @@ resource "aws_security_group" "ec2_sg" {
 }
 
 resource "aws_launch_configuration" "api_launch_config" {
-  name          = "${var.prefix}-api"
+  name          = "${var.prefix}-api-api"
   image_id      = data.aws_ami.amazon_linux.id
-  key_name      = "scubadivedubai"
+  key_name      = "AWS-EC2"
   instance_type = "t2.medium"
   spot_price    = "0.04"
   lifecycle {
