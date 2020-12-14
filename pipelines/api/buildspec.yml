@@ -1,50 +1,46 @@
 version: 0.2
 
-env:
-  variables:
-    DATABASE_URL: "postgres://scubadivedubai:ScubaDiveDubai0!@scubadivedubai.cguhuytcxcub.us-east-1.rds.amazonaws.com:5432/scubadivedubai_shop"
-    EMAIL_URL: "smtp://AKIAQPIWRSOPQGTLNIVV:BM1OBPMJzVv4V3rSvA2Zv663y9CzOgrrZNuRj4oR0SyY@email-smtp.us-east-1.amazonaws.com:587/?tls=True"
-    DEFAULT_FROM_EMAIL: "pierre@divesandybeach.com"
-    STATIC_URL: "/static/"
-    MEDIA_URL: "/media/"
-    CREATE_IMAGES_ON_DEMAND: "True"
-    API_URI: "https://api.scubadivedubai.com/graphql/"
-    APP_MOUNT_URI: "https://dashboard.scubadivedubai.com"
-    JAEGER_AGENT_HOST: "jaeger"
-    REDIS_URL: "redis://redis:6379/0"
-    PORT: "3000"
-    PYTHONUNBUFFERED: "1"
-    PROCESSES: "4"
-    OPENEXCHANGERATES_API_KEY: "026bbc0c5d22447ca082d6d50e575211"
-    SECRET_KEY: "supersecretkey"
-    DEBUG: "False"
-    ALLOWED_HOSTS: "api.scubadivedubai.com,dashboard.scubadivedubai.com,media.scubadivedubai.com,scubadivedubai.com"
-    PLAYGROUND_ENABLED: "True"
-    AWS_MEDIA_BUCKET_NAME: "scubadivedubai-api-media"
-    AWS_STORAGE_BUCKET_NAME: "scubadivedubai-api-static"
-    AWS_ACCESS_KEY_ID: "AKIAQPIWRSOP5NHI6LVH"
-    AWS_SECRET_ACCESS_KEY: "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"
-    AWS_MEDIA_CUSTOM_DOMAIN: "media.scubadivedubai.com"
-    AWS_STATIC_CUSTOM_DOMAIN: "static.scubadivedubai.com"
-    ALLOWED_CLIENT_HOSTS: "api.scubadivedubai.com,dashboard.scubadivedubai.com,media.scubadivedubai.com,scubadivedubai.com"
-    DEFAULT_COUNTRY: "AE"
-    DEFAULT_CURRENCY: "AED"
-    GOOGLE_ANALYTICS_TRACKING_ID: "somegoogletag"
-    VATLAYER_ACCESS_KEY: "cedf249c2eed18bb4f390a3665bd9f4a"
-
 phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account_id}.dkr.ecr.${region}.amazonaws.com
-      - REPOSITORY_URI=${repository_url}
+      - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $REPOSITORY_URI.dkr.ecr.$REGION.amazonaws.com
   build:
     commands:
       - echo Build started on `date`
       - echo Building the application Docker image...
-      - docker login --username=subaquaticpierre --password='M0ther!and'
-      - docker build -t $REPOSITORY_URI:latest .
+      - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PW
+      - docker build -t $REPOSITORY_URI:latest . \
+      - --build-arg DATABASE_URL=$DATABASE_URL \
+      - --build-arg EMAIL_URL=$EMAIL_URL \
+      - --build-arg DEFAULT_FROM_EMAIL=$DEFAULT_FROM_EMAIL \
+      - --build-arg STATIC_URL=$STATIC_URL \
+      - --build-arg MEDIA_URL=$MEDIA_URL \
+      - --build-arg CREATE_IMAGES_ON_DEMAND=$CREATE_IMAGES_ON_DEMAND \
+      - --build-arg API_URI=$API_URI \
+      - --build-arg APP_MOUNT_URI=$APP_MOUNT_URI \
+      - --build-arg JAEGER_AGENT_HOST=$JAEGER_AGENT_HOST \
+      - --build-arg REDIS_URL=$REDIS_URL \
+      - --build-arg PORT=$PORT \
+      - --build-arg PYTHONUNBUFFERED=$PYTHONUNBUFFERED \
+      - --build-arg PROCESSES=$PROCESSES \
+      - --build-arg OPENEXCHANGERATES_API_KEY=$OPENEXCHANGERATES_API_KEY \
+      - --build-arg SECRET_KEY=$SECRET_KEY \
+      - --build-arg DEBUG=$DEBUG \
+      - --build-arg ALLOWED_HOSTS=$ALLOWED_HOSTS \
+      - --build-arg PLAYGROUND_ENABLED=$PLAYGROUND_ENABLED \
+      - --build-arg AWS_MEDIA_BUCKET_NAME=$AWS_MEDIA_BUCKET_NAME \
+      - --build-arg AWS_STORAGE_BUCKET_NAME=$AWS_STORAGE_BUCKET_NAME \
+      - --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+      - --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+      - --build-arg AWS_MEDIA_CUSTOM_DOMAIN=$AWS_MEDIA_CUSTOM_DOMAIN \
+      - --build-arg AWS_STATIC_CUSTOM_DOMAIN=$AWS_STATIC_CUSTOM_DOMAIN \
+      - --build-arg ALLOWED_CLIENT_HOSTS=$ALLOWED_CLIENT_HOSTS \
+      - --build-arg DEFAULT_COUNTRY=$DEFAULT_COUNTRY \
+      - --build-arg DEFAULT_CURRENCY=$DEFAULT_CURRENCY \
+      - --build-arg GOOGLE_ANALYTICS_TRACKING_ID=$GOOGLE_ANALYTICS_TRACKING_ID \
+      - --build-arg VATLAYER_ACCESS_KEY=$VATLAYER_ACCESS_KEY \
       - echo ------------------
   post_build:
     commands:
@@ -52,7 +48,7 @@ phases:
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"${container_name}","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
+      - printf '[{"name":"${CONTAINER_NAME}","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
 artifacts:
   files:
     - imagedefinitions.json

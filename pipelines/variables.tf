@@ -7,6 +7,11 @@ variable "storefront_github_repo" {}
 variable "dashboard_github_repo" {}
 variable "api_github_repo" {}
 
+variable "build_secrets" {
+  type        = map(string)
+  description = "All secrets used in building images"
+}
+
 # From vpc module
 variable "subnet_ids" {}
 

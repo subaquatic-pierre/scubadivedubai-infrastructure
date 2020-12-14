@@ -7,6 +7,11 @@ variable "github_repo" {}
 variable "subnet_ids" {}
 variable "region" {}
 
+variable "build_secrets" {
+  type        = map(string)
+  description = "All secrets used in building images"
+}
+
 
 variable "codebuild_role" {}
 variable "codepipeline_role" {}

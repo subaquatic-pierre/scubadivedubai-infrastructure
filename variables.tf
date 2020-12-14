@@ -5,6 +5,7 @@ variable "tags" {
   type        = map(string)
   description = "Tags"
 }
+
 variable "aws_account_id" {}
 variable "github_token" {}
 variable "github_account" {}
@@ -12,6 +13,11 @@ variable "github_account" {}
 # ------
 # Repositories
 # ------
+
+variable "build_secrets" {
+  type        = map(string)
+  description = "All secrets used in building images"
+}
 
 variable "storefront_github_repo" {
   type        = map(string)
@@ -65,23 +71,15 @@ variable "ssl_cert_arn" {
 variable "vpc_cidr" {}
 
 variable "private_subnet_cidrs" {
-  type = list
+  type = list(any)
 }
 
 variable "public_subnet_cidrs" {
-  type = list
+  type = list(any)
 }
 
 variable "availability_zones" {
-  type = list
-}
-
-# ------
-# Database Vars
-# ------
-
-variable "db_url" {
-  type = string
+  type = list(any)
 }
 
 

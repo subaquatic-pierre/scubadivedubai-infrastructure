@@ -44,6 +44,7 @@ module "api_pipeline" {
   github_repo      = var.api_github_repo
   subnet_ids       = var.subnet_ids
   api_ecr_repo_url = var.api_ecr_repo_url
+  build_secrets    = var.build_secrets
 
   codebuild_role    = aws_iam_role.codebuild_role.arn
   codepipeline_role = aws_iam_role.codepipeline_role.arn
