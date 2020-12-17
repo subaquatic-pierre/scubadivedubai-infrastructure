@@ -5,12 +5,15 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $REPOSITORY_URI.dkr.ecr.$REGION.amazonaws.com
+      - aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI}.dkr.ecr.${REGION}.amazonaws.com
   build:
     commands:
+      - echo ${REGION}
       - echo Build started on `date`
       - echo Building the application Docker image...
       - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PW
+      - echo ${DOCKER_USERNAME}
+      - echo $DOCKER_USERNAME
       - docker build -t $REPOSITORY_URI:latest . \
       - --build-arg DATABASE_URL=$DATABASE_URL \
       - --build-arg EMAIL_URL=$EMAIL_URL \

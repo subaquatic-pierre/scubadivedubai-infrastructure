@@ -56,6 +56,8 @@ resource "aws_codebuild_project" "api_build" {
       DEFAULT_CURRENCY             = var.build_secrets["DEFAULT_CURRENCY"]
       GOOGLE_ANALYTICS_TRACKING_ID = var.build_secrets["GOOGLE_ANALYTICS_TRACKING_ID"]
       VATLAYER_ACCESS_KEY          = var.build_secrets["VATLAYER_ACCESS_KEY"]
+      DOCKER_USERNAME              = var.build_secrets["DOCKER_USERNAME"]
+      DOCKER_PASSWORD              = var.build_secrets["DOCKER_PASSWORD"]
     })
   }
 }
