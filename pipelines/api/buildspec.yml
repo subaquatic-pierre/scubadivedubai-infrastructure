@@ -8,50 +8,48 @@ phases:
       - aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI}.dkr.ecr.${REGION}.amazonaws.com
   build:
     commands:
-      - echo ${REGION}
       - echo Build started on `date`
       - echo Building the application Docker image...
-      - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PW
-      - echo ${DOCKER_USERNAME}
-      - echo $DOCKER_USERNAME
-      - docker build -t $REPOSITORY_URI:latest . \
-      - --build-arg DATABASE_URL=$DATABASE_URL \
-      - --build-arg EMAIL_URL=$EMAIL_URL \
-      - --build-arg DEFAULT_FROM_EMAIL=$DEFAULT_FROM_EMAIL \
-      - --build-arg STATIC_URL=$STATIC_URL \
-      - --build-arg MEDIA_URL=$MEDIA_URL \
-      - --build-arg CREATE_IMAGES_ON_DEMAND=$CREATE_IMAGES_ON_DEMAND \
-      - --build-arg API_URI=$API_URI \
-      - --build-arg APP_MOUNT_URI=$APP_MOUNT_URI \
-      - --build-arg JAEGER_AGENT_HOST=$JAEGER_AGENT_HOST \
-      - --build-arg REDIS_URL=$REDIS_URL \
-      - --build-arg PORT=$PORT \
-      - --build-arg PYTHONUNBUFFERED=$PYTHONUNBUFFERED \
-      - --build-arg PROCESSES=$PROCESSES \
-      - --build-arg OPENEXCHANGERATES_API_KEY=$OPENEXCHANGERATES_API_KEY \
-      - --build-arg SECRET_KEY=$SECRET_KEY \
-      - --build-arg DEBUG=$DEBUG \
-      - --build-arg ALLOWED_HOSTS=$ALLOWED_HOSTS \
-      - --build-arg PLAYGROUND_ENABLED=$PLAYGROUND_ENABLED \
-      - --build-arg AWS_MEDIA_BUCKET_NAME=$AWS_MEDIA_BUCKET_NAME \
-      - --build-arg AWS_STORAGE_BUCKET_NAME=$AWS_STORAGE_BUCKET_NAME \
-      - --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-      - --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
-      - --build-arg AWS_MEDIA_CUSTOM_DOMAIN=$AWS_MEDIA_CUSTOM_DOMAIN \
-      - --build-arg AWS_STATIC_CUSTOM_DOMAIN=$AWS_STATIC_CUSTOM_DOMAIN \
-      - --build-arg ALLOWED_CLIENT_HOSTS=$ALLOWED_CLIENT_HOSTS \
-      - --build-arg DEFAULT_COUNTRY=$DEFAULT_COUNTRY \
-      - --build-arg DEFAULT_CURRENCY=$DEFAULT_CURRENCY \
-      - --build-arg GOOGLE_ANALYTICS_TRACKING_ID=$GOOGLE_ANALYTICS_TRACKING_ID \
-      - --build-arg VATLAYER_ACCESS_KEY=$VATLAYER_ACCESS_KEY \
+      - docker login --username=${DOCKER_USERNAME} --password=${DOCKER_PASSWORD}
+      - |
+        docker build -t ${REPOSITORY_URI}:latest . \
+          --build-arg DATABASE_URL=${DATABASE_URL} \
+          --build-arg EMAIL_URL=${EMAIL_URL} \
+          --build-arg DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL} \
+          --build-arg STATIC_URL=${STATIC_URL} \
+          --build-arg MEDIA_URL=${MEDIA_URL} \
+          --build-arg CREATE_IMAGES_ON_DEMAND=${CREATE_IMAGES_ON_DEMAND} \
+          --build-arg API_URI=${API_URI} \
+          --build-arg APP_MOUNT_URI=${APP_MOUNT_URI} \
+          --build-arg JAEGER_AGENT_HOST=${JAEGER_AGENT_HOST} \
+          --build-arg REDIS_URL=${REDIS_URL} \
+          --build-arg PORT=${PORT} \
+          --build-arg PYTHONUNBUFFERED=${PYTHONUNBUFFERED} \
+          --build-arg PROCESSES=${PROCESSES} \
+          --build-arg OPENEXCHANGERATES_API_KEY=${OPENEXCHANGERATES_API_KEY} \
+          --build-arg SECRET_KEY=${SECRET_KEY} \
+          --build-arg DEBUG=${DEBUG} \
+          --build-arg ALLOWED_HOSTS=${ALLOWED_HOSTS} \
+          --build-arg PLAYGROUND_ENABLED=${PLAYGROUND_ENABLED} \
+          --build-arg AWS_MEDIA_BUCKET_NAME=${AWS_MEDIA_BUCKET_NAME} \
+          --build-arg AWS_STORAGE_BUCKET_NAME=${AWS_STORAGE_BUCKET_NAME} \
+          --build-arg AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+          --build-arg AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+          --build-arg AWS_MEDIA_CUSTOM_DOMAIN=${AWS_MEDIA_CUSTOM_DOMAIN} \
+          --build-arg AWS_STATIC_CUSTOM_DOMAIN=${AWS_STATIC_CUSTOM_DOMAIN} \
+          --build-arg ALLOWED_CLIENT_HOSTS=${ALLOWED_CLIENT_HOSTS} \
+          --build-arg DEFAULT_COUNTRY=${DEFAULT_COUNTRY} \
+          --build-arg DEFAULT_CURRENCY=${DEFAULT_CURRENCY} \
+          --build-arg GOOGLE_ANALYTICS_TRACKING_ID=${GOOGLE_ANALYTICS_TRACKING_ID} \
+          --build-arg VATLAYER_ACCESS_KEY=${VATLAYER_ACCESS_KEY}
       - echo ------------------
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
-      - docker push $REPOSITORY_URI:latest
+      - docker push ${REPOSITORY_URI}:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"${CONTAINER_NAME}","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
+      - printf '[{"name":"${CONTAINER_NAME}","imageUri":"%s"}]' ${REPOSITORY_URI}:latest > imagedefinitions.json
 artifacts:
   files:
     - imagedefinitions.json
