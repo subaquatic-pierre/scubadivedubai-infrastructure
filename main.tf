@@ -37,7 +37,7 @@ module "vpc" {
   enable_dns_hostnames = true
   enable_dns_support   = true
 }
-
+/*
 module "storefront" {
   source = "./storefront"
 
@@ -94,5 +94,6 @@ module "api" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.public_subnets
 }
+*/
 
 
